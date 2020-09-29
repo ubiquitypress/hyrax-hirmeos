@@ -9,9 +9,9 @@ Gem::Specification.new do |spec|
   spec.version     = Hyrax::Hirmeos::VERSION
   spec.authors     = ["BertZZ"]
   spec.email       = ["bertie.wooles@gmail.com"]
-  spec.homepage    = "TODO"
-  spec.summary     = "TODO: Summary of Hyrax::Hirmeos."
-  spec.description = "TODO: Description of Hyrax::Hirmeos."
+  spec.homepage    = ""
+  spec.summary     = "A Hyrax plugin to allow collection and display of HIRMEOS metrics"
+  spec.description = "Description of Hyrax::Hirmeos."
   spec.license     = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
@@ -28,4 +28,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "rails", "~> 6.0.3", ">= 6.0.3.3"
 
   spec.add_development_dependency "sqlite3"
+  spec.add_development_dependency "rspec-rails"
 end
