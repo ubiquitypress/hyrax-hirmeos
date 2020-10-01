@@ -1,0 +1,189 @@
+<% provide :page_title, @presenter.page_title %>
+
+<%= render 'shared/citations' %>
+
+<div class="row work-type">
+  <div class="col-sm-12">
+    <%= render 'work_type', presenter: @presenter %>
+  </div>
+  <div itemscope itemtype="http://schema.org/CreativeWork" class="col-xs-12">
+    <%= render 'work_title', presenter: @presenter %>
+    <%= render 'show_actions', presenter: @presenter %>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="row">
+          <%= render 'workflow_actions_widget', presenter: @presenter %>
+          <% if @presenter.iiif_viewer? %>
+            <div class="col-sm-12">
+              <%= render 'representative_media', presenter: @presenter, viewer: true %>
+            </div>
+          <% end %>
+          <div class="col-sm-3 text-center">
+            <%= render 'representative_media', presenter: @presenter, viewer: false unless @presenter.iiif_viewer? %>
+            <%= render 'citations', presenter: @presenter %>
+            <%= render 'social_media' %>
+          </div>
+          <div class="col-sm-9">
+            <%= render 'work_description', presenter: @presenter %>
+            <%= render 'metadata', presenter: @presenter %>
+          </div>
+        </div>
+      </div>
+    </div><!-- /panel -->
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= t('hyrax.base.show.relationships') %></h3>
+      </div>
+      <div class="panel-body">
+        <%= render 'relationships', presenter: @presenter %>
+      </div>
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><%= t('.items') %></h3>
+      </div>
+      <div class="panel-body">
+        <%= render 'items', presenter: @presenter %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h1> Metrics Div </h1>
+<script>
+      const metrics_config = {
+        settings: {
+          base_url: 'https://metrics-api.operas-eu.org/events',
+          work_uri: "urn:uuid:<%= #{@presenter.id}" %>,
+          language: 'en',
+          localise_country_codes: true,
+          one_per_column_width: 450
+        },
+        locales: {
+          en: {
+            tabs: {
+              sessions: 'Abstract Views'
+            }
+          }
+        },
+        tabs: {
+          sessions: {
+            nav_counts: ['*'],
+            graphs: {
+              time_graph: {
+                width: 100,
+                uris: ['https://metrics.operas-eu.org/up-ga/sessions/v1']
+              },
+              country_table: {
+                width: 30,
+                uris: ['https://metrics.operas-eu.org/up-ga/sessions/v1']
+              },
+              world_map: {
+                width: 70,
+                hideLabel: true,
+                uris: ['https://metrics.operas-eu.org/up-ga/sessions/v1']
+              }
+            }
+          },
+          downloads: {
+            nav_counts: ['*'],
+            graphs: {
+              time_graph: {
+                width: 100,
+                uris: ['https://metrics.operas-eu.org/up-logs/downloads/v1']
+              },
+              country_table: {
+                width: 30,
+                uris: [
+                  'https://metrics.operas-eu.org/up-ga/downloads/v1',
+                  'https://metrics.operas-eu.org/oapen/downloads/v1'
+                ]
+              },
+              world_map: {
+                width: 70,
+                hideLabel: true,
+                uris: [
+                  'https://metrics.operas-eu.org/up-ga/downloads/v1',
+                  'https://metrics.operas-eu.org/oapen/downloads/v1'
+                ]
+              }
+            }
+          },
+          citations: {
+            nav_counts: ['*'],
+            graphs: {
+              time_graph: {
+                width: 100,
+                uris: ['https://metrics.operas-eu.org/crossref/citations/v1']
+              }
+            }
+          },
+          tweets: {
+            nav_counts: ['*'],
+            graphs: {
+              tweets: {
+                width: 50,
+                uris: ['https://metrics.operas-eu.org/twitter/tweets/v1']
+              },
+              time_graph: {
+                width: 50,
+                uris: ['https://metrics.operas-eu.org/twitter/tweets/v1']
+              }
+            }
+          },
+          references: {
+            nav_counts: ['*'],
+            graphs: {
+              wikipedia_articles: {
+                width: 100,
+                uris: ['https://metrics.operas-eu.org/wikipedia/references/v1']
+              },
+              wordpress: {
+                width: 100,
+                uris: ['https://metrics.operas-eu.org/wordpress/references/v1']
+              }
+            }
+          },
+          annotations: {
+            nav_counts: ['*'],
+            graphs: {
+              time_graph: {
+                width: 100,
+                uris: [
+                  'https://metrics.operas-eu.org/hypothesis/annotations/v1'
+                ]
+              },
+              hypothesis: {
+                width: 100,
+                uris: [
+                  'https://metrics.operas-eu.org/hypothesis/annotations/v1'
+                ]
+              }
+            }
+          },
+          reads: {
+            nav_counts: ['*'],
+            graphs: {
+              time_graph: {
+                width: 100,
+                uris: ['https://metrics.operas-eu.org/up-ga/reads/v1']
+              },
+              country_table: {
+                width: 30,
+                uris: ['https://metrics.operas-eu.org/up-ga/reads/v1']
+              },
+              world_map: {
+                width: 70,
+                hideLabel: true,
+                uris: ['https://metrics.operas-eu.org/up-ga/reads/v1']
+              }
+            }
+          }
+        }
+      };
+    </script>
+
+<div id="metrics-block"></div>
+<script src="https://storage.googleapis.com/operas/metrics-widget-0.0.19/widget.js"></script>

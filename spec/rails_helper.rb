@@ -5,7 +5,13 @@ ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('internal_test_hyrax/config/environment', __dir__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
+require 'factory_bot_rails'
 require 'rspec/rails'
+require 'capybara/rails'
+require 'capybara/rspec'
+require 'selenium-webdriver'
+require 'webdrivers'
+require 'webdrivers/chromedriver'
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -25,12 +31,38 @@ require 'rspec/rails'
 
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
+
+# Capybara config copied over from Hyrax
+Capybara.register_driver :selenium_chrome_headless_sandboxless do |app|
+  browser_options = ::Selenium::WebDriver::Chrome::Options.new
+  browser_options.args << '--headless'
+  browser_options.args << '--disable-gpu'
+  browser_options.args << '--no-sandbox'
+  # browser_options.args << '--disable-dev-shm-usage'
+  # browser_options.args << '--disable-extensions'
+  # client = Selenium::WebDriver::Remote::Http::Default.new
+  # client.timeout = 90 # instead of the default 60
+  # Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options, http_client: client)
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: browser_options)
+end
+
+Capybara.default_driver = :rack_test # This is a faster driver
+Capybara.javascript_driver = :selenium_chrome_headless_sandboxless # This is slower
+Capybara.default_max_wait_time = 10 # We may have a slow application, let's give it some time.
+
+# FIXME: Pin to older version of chromedriver to avoid issue with clicking non-visible elements
+Webdrivers::Chromedriver.required_version = '72.0.3626.69'
+
+# Note: engine, not Rails.root context.
+Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].each { |f| require f }
+
 begin
   ActiveRecord::Migration.maintain_test_schema!
 rescue ActiveRecord::PendingMigrationError => e
   puts e.to_s.strip
   exit 1
 end
+
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
@@ -62,4 +94,6 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+  config.include FactoryBot::Syntax::Methods
+  config.include Features::SessionHelpers, type: :feature
 end
