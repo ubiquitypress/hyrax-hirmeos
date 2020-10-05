@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Metrics Widget', type: :feature do
-  let(:work) { create(:work) }
+  let(:work) { create(:work, visibility: 'open') }
 
   it 'displays the metrics widget on the show work page' do
     visit "/concern/generic_works/#{work.id}"

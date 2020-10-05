@@ -33,7 +33,7 @@
 
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title"><%= t('hyrax.base.show.relationships') %></h3>
+        <h3 class="panel-title"><%= "Relationships" %></h3>
       </div>
       <div class="panel-body">
         <%= render 'relationships', presenter: @presenter %>
@@ -42,7 +42,7 @@
 
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title"><%= t('.items') %></h3>
+        <h3 class="panel-title"><%= "Items" %></h3>
       </div>
       <div class="panel-body">
         <%= render 'items', presenter: @presenter %>
@@ -56,7 +56,7 @@
       const metrics_config = {
         settings: {
           base_url: 'https://metrics-api.operas-eu.org/events',
-          work_uri: "urn:uuid:<%= #{@presenter.id}" %>,
+          work_uri: "urn:uuid:<%= "#{@presenter.id}" %>",
           language: 'en',
           localise_country_codes: true,
           one_per_column_width: 450
