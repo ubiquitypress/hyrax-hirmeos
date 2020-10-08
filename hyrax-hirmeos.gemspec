@@ -28,11 +28,12 @@ Gem::Specification.new do |spec|
   spec.add_dependency "rails", "~> 5.2.4", ">= 5.2.4.3"
   spec.add_dependency "hyrax", "~> 2.8"
 
-
+  spec.add_development_dependency "bixby"
   spec.add_development_dependency 'capybara'
   spec.add_development_dependency 'chromedriver-helper', '~> 2.1'
   spec.add_development_dependency "factory_bot_rails"
   spec.add_development_dependency 'rspec_junit_formatter'
   spec.add_development_dependency "rspec-rails"
+  spec.add_development_dependency "simplecov"
   spec.add_development_dependency 'webdrivers', '~> 4.0'
 end
