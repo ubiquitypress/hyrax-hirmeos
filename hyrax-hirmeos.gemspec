@@ -35,6 +35,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "factory_bot_rails"
   spec.add_development_dependency 'rspec_junit_formatter'
   spec.add_development_dependency "rspec-rails"
-  spec.add_development_dependency "simplecov"
+  spec.add_development_dependency('simplecov', '0.17.1', '< 0.18')
   spec.add_development_dependency 'webdrivers', '~> 4.0'
 end
