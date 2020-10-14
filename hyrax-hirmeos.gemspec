@@ -37,4 +37,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec-rails"
   spec.add_development_dependency('simplecov', '0.17.1', '< 0.18')
   spec.add_development_dependency 'webdrivers', '~> 4.0'
+  spec.add_development_dependency 'webmock'
 end
