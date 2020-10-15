@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 class Hyrax::Hirmeos::Client
 
   attr_accessor :username, :password, :metrics_base_url, :token_base_url, :translation_base_url
@@ -15,6 +14,10 @@ class Hyrax::Hirmeos::Client
   def post_work(work: work)
     con = id_translation_connection
     con.post('/works', work.to_json)
+  end
+
+  class Work < Struct.new(:title, :uri, :type, :parent, :children)
+   # to_json is provided for free
   end
 
   private
