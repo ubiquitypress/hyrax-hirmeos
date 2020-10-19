@@ -17,7 +17,6 @@ class Hyrax::Hirmeos::Client
   end
 
   class Work < Struct.new(:title, :uri, :type, :parent, :children)
-   # to_json is provided for free
   end
 
   private
