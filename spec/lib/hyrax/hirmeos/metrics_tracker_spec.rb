@@ -3,17 +3,18 @@ require 'hyrax/hirmeos/metrics_tracker'
 require 'rails_helper'
 
 RSpec.describe Hyrax::Hirmeos::MetricsTracker do
-  WebMock.allow_net_connect!
   let(:subject) { described_class.new("UsernameTest", "Password", "https://metrics-api.operas-eu.org/events",
                                       "www.dummy-token-url.org", "https://translator.ubiquity.press") }
 
   before do
+    WebMock.allow_net_connect!
     stub_request(:post, "https://translator.ubiquity.press/works")
   end
 
   describe '#register_work_to_hirmeos' do
-    it 'Makes a call to the hirmeos API' do
+    it 'Makes a call to the register API if the work is not already registered' do
       work = create(:work, visibility: "open")
+      stub_request(:get, "https://translator.ubiquity.press/events?filter=work_uri:urn:uuid:#{work.id}").to_return(status: 400)
       structure = {
         "title": [
           "#{work.title[0]}"
@@ -32,11 +33,18 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
       subject.submit_to_hirmeos(work)
       expect(a_request(:post, subject.translation_base_url + "/works").with(body:structure.to_json)).to have_been_made.at_least_once
     end
+
+    it 'does not call the register endpoint if a work is already registered' do
+      work = create(:work)
+      stub_request(:get, "https://translator.ubiquity.press/events?filter=work_uri:urn:uuid:#{work.id}").to_return(status: 200)
+      WebMock.disallow_net_connect!
+      subject.submit_to_hirmeos(work)
+      expect(a_request(:post, subject.translation_base_url + "/works")).not_to have_been_made
+    end
   end
 
   describe '#resource_to_hirmeos_json' do
     it "Returns a Client Work Object" do
-      WebMock.allow_net_connect!
       work = create(:work)
       expect(subject.resource_to_hirmeos_json(work)).to be_a_kind_of(Hyrax::Hirmeos::Client::Work)
     end

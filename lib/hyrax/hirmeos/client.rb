@@ -16,6 +16,11 @@ class Hyrax::Hirmeos::Client
     con.post('/works', work.to_json)
   end
 
+  def get_work(uuid)
+    con = id_translation_connection
+    response = con.get("/events?filter=work_uri:urn:uuid:#{uuid}") #This will need to be made configurable I think?
+  end
+
   class Work < Struct.new(:title, :uri, :type, :parent, :children)
   end
 

@@ -18,7 +18,11 @@ class Hyrax::Hirmeos::MetricsTracker
   end
 
   def submit_to_hirmeos(work)
-    client.post_work(work: resource_to_hirmeos_json(work))
+    uuid = work.id
+    response = client.get_work(uuid)
+    unless response.success?
+      client.post_work(work: resource_to_hirmeos_json(work))
+    end
   end
 
   def resource_to_hirmeos_json(work)

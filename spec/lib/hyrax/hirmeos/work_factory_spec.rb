@@ -5,10 +5,9 @@ require 'rails_helper'
 
 RSpec.describe Hyrax::Hirmeos::WorkFactory do
   WebMock.allow_net_connect!
-  let(:work) { create(:work, visibility:"open") }
+  let(:work) { create(:work) }
 
   it "Creates works with the correct structure" do
-    puts work.inspect
     structure = {
       "title": [
         "#{work.title[0]}"
