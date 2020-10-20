@@ -3,7 +3,7 @@ require 'hyrax/hirmeos/metrics_tracker'
 require 'rails_helper'
 
 RSpec.describe Hyrax::Hirmeos::MetricsTracker do
-  let(:subject) { described_class.new("UsernameTest", "Password", "https://metrics-api.operas-eu.org/events",
+  let(:subject) { described_class.new("UsernameTest", "Password", "https://metrics-api.operas-eu.org",
                                       "www.dummy-token-url.org", "https://translator.ubiquity.press") }
 
   before do
@@ -14,7 +14,7 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
   describe '#register_work_to_hirmeos' do
     it 'Makes a call to the register API if the work is not already registered' do
       work = create(:work, visibility: "open")
-      stub_request(:get, "https://translator.ubiquity.press/events?filter=work_uri:urn:uuid:#{work.id}").to_return(status: 400)
+      stub_request(:get, "https://metrics-api.operas-eu.org/events?filter=work_uri:urn:uuid:#{work.id}").to_return(status: 400)
       structure = {
         "title": [
           "#{work.title[0]}"
@@ -36,7 +36,7 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
 
     it 'does not call the register endpoint if a work is already registered' do
       work = create(:work)
-      stub_request(:get, "https://translator.ubiquity.press/events?filter=work_uri:urn:uuid:#{work.id}").to_return(status: 200)
+      stub_request(:get, "https://metrics-api.operas-eu.org/events?filter=work_uri:urn:uuid:#{work.id}").to_return(status: 200)
       WebMock.disallow_net_connect!
       subject.submit_to_hirmeos(work)
       expect(a_request(:post, subject.translation_base_url + "/works")).not_to have_been_made

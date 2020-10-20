@@ -24,10 +24,10 @@ RSpec.describe Hyrax::Hirmeos::Client do
   describe '#get_work' do
     it 'Makes a call to get the work' do
       work = create(:work)
-      stub_request(:get, "https://translator.ubiquity.press/events?filter=work_uri:urn:uuid:#{work.id}")
+      stub_request(:get, "https://metrics-api.operas-eu.org/events?filter=work_uri:urn:uuid:#{work.id}")
       WebMock.disallow_net_connect!
       subject.get_work(work.id)
-      expect(a_request(:get, "https://translator.ubiquity.press/events?filter=work_uri:urn:uuid:#{work.id}")).
+      expect(a_request(:get, "https://metrics-api.operas-eu.org/events?filter=work_uri:urn:uuid:#{work.id}")).
       to have_been_made.at_least_once
     end
   end

@@ -17,7 +17,7 @@ class Hyrax::Hirmeos::Client
   end
 
   def get_work(uuid)
-    con = id_translation_connection
+    con = metrics_connection
     response = con.get("/events?filter=work_uri:urn:uuid:#{uuid}") #This will need to be made configurable I think?
   end
 
@@ -28,6 +28,12 @@ class Hyrax::Hirmeos::Client
 
   def id_translation_connection
     Faraday.new(translation_base_url) do |conn|
+      conn.adapter Faraday.default_adapter # net/http
+    end
+  end
+
+  def metrics_connection
+    Faraday.new(metrics_base_url) do |conn|
       conn.adapter Faraday.default_adapter # net/http
     end
   end
