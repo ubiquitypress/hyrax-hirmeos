@@ -21,20 +21,29 @@ class Hyrax::Hirmeos::Client
     response = con.get("/events?filter=work_uri:urn:uuid:#{uuid}") #This will need to be made configurable I think?
   end
 
+  def get_token
+    response = Faraday.post(URI.join(token_base_url, 'tokens')), {email: username, password: password}.to_json
+    JSON.parse(response[0].body)['data'][0]['token']
+  end
+
   class Work < Struct.new(:title, :uri, :type, :parent, :children)
   end
 
   private
 
   def id_translation_connection
+    token = get_token
     Faraday.new(translation_base_url) do |conn|
       conn.adapter Faraday.default_adapter # net/http
+      # conn.token_auth(token)
     end
   end
 
   def metrics_connection
+    token = get_token
     Faraday.new(metrics_base_url) do |conn|
       conn.adapter Faraday.default_adapter # net/http
+      # conn.token_auth(token)
     end
   end
 end
