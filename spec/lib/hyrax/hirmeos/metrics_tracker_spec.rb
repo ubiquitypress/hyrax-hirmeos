@@ -3,17 +3,17 @@ require 'hyrax/hirmeos/metrics_tracker'
 require 'rails_helper'
 
 RSpec.describe Hyrax::Hirmeos::MetricsTracker do
-  let(:subject) { described_class.new }
+  subject(:tracker) { described_class.new }
 
   before do
-    subject.username = "UsernameTest"
-    subject.password = "Password"
-    subject.metrics_base_url = "https://metrics-api.operas-eu.org"
-    subject.token_base_url = "https://tokens.ubiquity.press/"
-    subject.translation_base_url = "https://translator.ubiquity.press"
+    tracker.username = "UsernameTest"
+    tracker.password = "Password"
+    tracker.metrics_base_url = "https://metrics-api.operas-eu.org"
+    tracker.token_base_url = "https://tokens.ubiquity.press/"
+    tracker.translation_base_url = "https://translator.ubiquity.press"
     WebMock.allow_net_connect!
     stub_request(:post, "https://translator.ubiquity.press/works")
-    stub_request(:post, "https://tokens.ubiquity.press/tokens").to_return(status: 200, body: {"data"=>[{"token"=>"exampleToken"}], "code"=>200, "status"=>"ok"}.to_json)
+    stub_request(:post, "https://tokens.ubiquity.press/tokens").to_return(status: 200, body: { "data" => [{ "token" => "exampleToken" }], "code" => 200, "status" => "ok" }.to_json)
   end
 
   describe '#register_work_to_hirmeos' do
@@ -22,7 +22,7 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
       stub_request(:get, "https://metrics-api.operas-eu.org/events?filter=work_uri:urn:uuid:#{work.id}").to_return(status: 400)
       structure = {
         "title": [
-          "#{work.title[0]}"
+          work.title[0].to_s
         ],
         "uri": [
           {
@@ -35,23 +35,23 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
         "children": nil
       }
       WebMock.disallow_net_connect!
-      subject.submit_to_hirmeos(work)
-      expect(a_request(:post, subject.translation_base_url + "/works").with(body:structure.to_json)).to have_been_made.at_least_once
+      tracker.submit_to_hirmeos(work)
+      expect(a_request(:post, tracker.translation_base_url + "/works").with(body: structure.to_json)).to have_been_made.at_least_once
     end
 
     it 'does not call the register endpoint if a work is already registered' do
       work = create(:work)
       stub_request(:get, "https://metrics-api.operas-eu.org/events?filter=work_uri:urn:uuid:#{work.id}").to_return(status: 200)
       WebMock.disallow_net_connect!
-      subject.submit_to_hirmeos(work)
-      expect(a_request(:post, subject.translation_base_url + "/works")).not_to have_been_made
+      tracker.submit_to_hirmeos(work)
+      expect(a_request(:post, tracker.translation_base_url + "/works")).not_to have_been_made
     end
   end
 
   describe '#resource_to_hirmeos_json' do
     it "Returns a Client Work Object" do
       work = create(:work)
-      expect(subject.resource_to_hirmeos_json(work)).to be_a_kind_of(Hyrax::Hirmeos::Client::Work)
+      expect(tracker.resource_to_hirmeos_json(work)).to be_a_kind_of(Hyrax::Hirmeos::Client::Work)
     end
   end
 end

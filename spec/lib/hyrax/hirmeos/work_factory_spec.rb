@@ -10,7 +10,7 @@ RSpec.describe Hyrax::Hirmeos::WorkFactory do
   it "Creates works with the correct structure" do
     structure = {
       "title": [
-        "#{work.title[0]}"
+        work.title[0].to_s
       ],
       "uri": [
         {
@@ -22,7 +22,7 @@ RSpec.describe Hyrax::Hirmeos::WorkFactory do
       "parent": nil,
       "children": nil
     }
-    factory_work = Hyrax::Hirmeos::WorkFactory.for(resource: work)
+    factory_work = described_class.for(resource: work)
     expect(factory_work.to_json).to eq(structure.to_json)
   end
 end

@@ -6,7 +6,7 @@ class Hyrax::Hirmeos::WorkFactory
     work = Hyrax::Hirmeos::Client::Work.new
     work.title = resource.title
     work.uri = [{ uri: resource_url(resource), canonical: true }]
-    work.type = "other"   # Need to map Hyrax work type to configured work types in HIRMEOS
+    work.type = "other" # Need to map Hyrax work type to configured work types in HIRMEOS
     work
   end
 
