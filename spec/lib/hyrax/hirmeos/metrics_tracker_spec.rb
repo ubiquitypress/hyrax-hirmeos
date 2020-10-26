@@ -3,10 +3,14 @@ require 'hyrax/hirmeos/metrics_tracker'
 require 'rails_helper'
 
 RSpec.describe Hyrax::Hirmeos::MetricsTracker do
-  let(:subject) { described_class.new("UsernameTest", "Password", "https://metrics-api.operas-eu.org",
-                                      "https://tokens.ubiquity.press/", "https://translator.ubiquity.press") }
+  let(:subject) { described_class.new }
 
   before do
+    subject.username = "UsernameTest"
+    subject.password = "Password"
+    subject.metrics_base_url = "https://metrics-api.operas-eu.org"
+    subject.token_base_url = "https://tokens.ubiquity.press/"
+    subject.translation_base_url = "https://translator.ubiquity.press"
     WebMock.allow_net_connect!
     stub_request(:post, "https://translator.ubiquity.press/works")
     stub_request(:post, "https://tokens.ubiquity.press/tokens").to_return(status: 200, body: {"data"=>[{"token"=>"exampleToken"}], "code"=>200, "status"=>"ok"}.to_json)

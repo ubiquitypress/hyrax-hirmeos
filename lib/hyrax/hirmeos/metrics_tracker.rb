@@ -3,15 +3,7 @@ require "hyrax/hirmeos/client"
 require "hyrax/hirmeos/work_factory"
 class Hyrax::Hirmeos::MetricsTracker
 
-  attr_accessor :username, :password, :metrics_base_url, :token_base_url, :translation_base_url, :client
-
-  def initialize(username, password, metrics_base_url, token_base_url, translation_base_url)
-    @username = username
-    @password = password
-    @metrics_base_url = metrics_base_url
-    @token_base_url = token_base_url
-    @translation_base_url = translation_base_url
-  end
+  class_attribute :username, :password, :metrics_base_url, :token_base_url, :translation_base_url
 
   def client
     @client ||= Hyrax::Hirmeos::Client.new(self.username, @password, @metrics_base_url, @token_base_url, @translation_base_url)
