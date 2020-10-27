@@ -77,7 +77,7 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
 
   config.before :suite do
-     WebMock.disable_net_connect!(allow: ['localhost', '127.0.0.1', 'fedora', 'fedora-test', 'solr', 'solr-test'])
+     WebMock.disable_net_connect!(allow: ['localhost', '127.0.0.1', 'fedora', 'fedora-test', 'solr', 'solr-test', 'https://chromedriver.storage.googleapis.com'])
    end
 
   # You can uncomment this line to turn off ActiveRecord support entirely.
