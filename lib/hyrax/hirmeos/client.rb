@@ -11,7 +11,7 @@ class Hyrax::Hirmeos::Client
   end
 
   def post_work(work)
-     id_translation_connection.post('/works', work.to_json)
+    id_translation_connection.post('/works', work.to_json)
   end
 
   def get_work(uuid)
