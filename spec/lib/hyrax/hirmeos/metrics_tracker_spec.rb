@@ -8,11 +8,11 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
 
   before do
     Rails.application.routes.default_url_options[:host] = 'localhost:3000'
-    tracker.username = "UsernameTest"
-    tracker.password = "Password"
-    tracker.metrics_base_url = "https://dummy-metrics-api/events"
-    tracker.token_base_url = "https://tokens.dummy.endpoint/"
-    tracker.translation_base_url = "https://translator.dummy.endpoint"
+    Hyrax::Hirmeos::MetricsTracker.username = "UsernameTest"
+    Hyrax::Hirmeos::MetricsTracker.password = "Password"
+    Hyrax::Hirmeos::MetricsTracker.metrics_base_url = "https://dummy-metrics-api/events"
+    Hyrax::Hirmeos::MetricsTracker.token_base_url = "https://tokens.dummy.endpoint/"
+    Hyrax::Hirmeos::MetricsTracker.translation_base_url = "https://translator.dummy.endpoint"
     stub_request(:post, "https://translator.dummy.endpoint/works")
     stub_request(:post, "https://tokens.dummy.endpoint/tokens").to_return(status: 200, body: { "data" => [{ "token" => "exampleToken" }], "code" => 200, "status" => "ok" }.to_json)
   end
