@@ -8,6 +8,12 @@ FactoryBot.define do
       with_admin_set { false }
     end
 
+    factory :work_with_one_file do
+      before(:create) do |work, evaluator|
+        work.ordered_members << create(:file_set, user: evaluator.user, title: ['A Contained FileSet'], label: 'filename.pdf')
+      end
+    end
+
     # It is reasonable to assume that a work has an admin set; However, we don't want to
     # go through the entire rigors of creating that admin set.
     before(:create) do |work, evaluator|
