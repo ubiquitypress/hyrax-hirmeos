@@ -30,7 +30,7 @@ FactoryBot.define do
       work.save! if work.member_of_collections.present?
     end
 
-    title { ["Test title"] }
+    sequence(:title) { |n| ["Test Title #{n}"] }
 
     after(:build) do |work, evaluator|
       work.apply_depositor_metadata(evaluator.user.user_key)

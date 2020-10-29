@@ -29,6 +29,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "rails", "~> 5.2.4", ">= 5.2.4.3"
   spec.add_dependency "hyrax", "~> 2.8"
 
+  spec.add_development_dependency 'ammeter'
   spec.add_development_dependency "bixby"
   spec.add_development_dependency 'capybara'
   spec.add_development_dependency 'chromedriver-helper', '~> 2.1'
@@ -37,4 +38,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec-rails"
   spec.add_development_dependency('simplecov', '0.17.1', '< 0.18')
   spec.add_development_dependency 'webdrivers', '~> 4.0'
+  spec.add_development_dependency 'webmock'
 end
