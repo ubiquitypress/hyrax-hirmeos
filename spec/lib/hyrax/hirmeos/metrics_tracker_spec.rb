@@ -7,6 +7,7 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
   let(:work) { create(:work) }
 
   before do
+    # rubocop:disable RSpec/DescribedClass
     Rails.application.routes.default_url_options[:host] = 'localhost:3000'
     Hyrax::Hirmeos::MetricsTracker.username = "UsernameTest"
     Hyrax::Hirmeos::MetricsTracker.password = "Password"
@@ -15,6 +16,7 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
     Hyrax::Hirmeos::MetricsTracker.translation_base_url = "https://translator.dummy.endpoint"
     stub_request(:post, "https://translator.dummy.endpoint/works")
     stub_request(:post, "https://tokens.dummy.endpoint/tokens").to_return(status: 200, body: { "data" => [{ "token" => "exampleToken" }], "code" => 200, "status" => "ok" }.to_json)
+    # rubocop:enable RSpec/DescribedClass
   end
 
   describe '#register_work_to_hirmeos' do

@@ -6,7 +6,7 @@ module Hyrax
 
       config.after_initialize do
         Hyrax::CurationConcern.actor_factory.use Hyrax::Actors::HirmeosActor
-        
+
         # Prepend our views so they have precedence
         ActionController::Base.prepend_view_path(paths['app/views'].existent)
       end
