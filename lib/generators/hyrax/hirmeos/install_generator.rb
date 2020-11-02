@@ -9,7 +9,7 @@ class Hyrax::Hirmeos::InstallGenerator < Rails::Generators::Base
     # rubocop:disable Style/RedundantSelf
     # For some reason I had to use self.destination_root here to get all contexts to work (calling from hyrax app, calling from this engine to test app, rspec tests)
     self.destination_root = Rails.root if self.destination_root.blank? || self.destination_root == Hyrax::Hirmeos::Engine.root.to_s
-    initializer_file = File.join(self.destination_root, 'hyrax_hirmeos.rb')
+    initializer_file = File.join(self.destination_root, 'config/initializers/hyrax_hirmeos.rb')
     # rubocop:enable Style/RedundantSelf
 
     copy_file "hyrax_hirmeos.rb", initializer_file

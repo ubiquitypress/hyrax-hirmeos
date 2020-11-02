@@ -19,7 +19,7 @@ class Hyrax::Hirmeos::Client
   end
 
   def request_token
-    response = Faraday.post(URI.join(token_base_url, 'tokens')), { email: username, password: password }.to_json
+    response = Faraday.post(URI.join(token_base_url, 'tokens'), { email: username, password: password }.to_json)
     JSON.parse(response[0].body)['data'][0]['token']
   end
 
