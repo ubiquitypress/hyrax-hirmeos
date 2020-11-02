@@ -7,31 +7,59 @@
       localise_country_codes: true,
       one_per_column_width: 450
     },
-    downloads: {
-      nav_counts: ['*'],
-      graphs: {
-        time_graph: {
-          width: 100,
-          uris: ['https://metrics.operas-eu.org/up-logs/downloads/v1']
-        },
-        country_table: {
-          width: 30,
-          uris: [
-          'https://metrics.operas-eu.org/up-ga/downloads/v1',
-          'https://metrics.operas-eu.org/oapen/downloads/v1'
-          ]
-        },
-        world_map: {
-          width: 70,
-          hideLabel: true,
-          uris: [
-          'https://metrics.operas-eu.org/up-ga/downloads/v1',
-          'https://metrics.operas-eu.org/oapen/downloads/v1'
-          ]
+    locales: {
+      en: {
+        tabs: {
+          sessions: 'Abstract Views'
         }
       }
-    };
-    </script>
+    },
+    tabs: {
+      sessions: {
+        nav_counts: ['*'],
+        graphs: {
+          time_graph: {
+            width: 100,
+            uris: ['https://metrics.operas-eu.org/up-ga/sessions/v1']
+          },
+          country_table: {
+            width: 30,
+            uris: ['https://metrics.operas-eu.org/up-ga/sessions/v1']
+          },
+          world_map: {
+            width: 70,
+            hideLabel: true,
+            uris: ['https://metrics.operas-eu.org/up-ga/sessions/v1']
+          }
+        }
+      },
+      downloads: {
+        nav_counts: ['*'],
+        graphs: {
+          time_graph: {
+            width: 100,
+            uris: ['https://metrics.operas-eu.org/up-logs/downloads/v1']
+          },
+          country_table: {
+            width: 30,
+            uris: [
+            'https://metrics.operas-eu.org/up-ga/downloads/v1',
+            'https://metrics.operas-eu.org/oapen/downloads/v1'
+            ]
+          },
+          world_map: {
+            width: 70,
+            hideLabel: true,
+            uris: [
+            'https://metrics.operas-eu.org/up-ga/downloads/v1',
+            'https://metrics.operas-eu.org/oapen/downloads/v1'
+            ]
+          }
+        }
+      }
+    }
+  };
+</script>
 
 <div id='metrics-block'></div>
 <script src='https://storage.googleapis.com/operas/metrics-widget-0.0.19/widget.js'></script>"
