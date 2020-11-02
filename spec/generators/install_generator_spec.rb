@@ -15,7 +15,7 @@ describe Hyrax::Hirmeos::InstallGenerator, type: :generator do
   describe 'generate_config' do
     it 'copies the initializer' do
       run_generator
-      expect(file("hyrax_hirmeos.rb")).to exist
+      expect(file("config/initializers/hyrax_hirmeos.rb")).to exist
     end
   end
 end
