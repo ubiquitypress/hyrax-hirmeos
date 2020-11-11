@@ -18,4 +18,4 @@
   </div> <!-- /.row -->
 </div><!-- /.container-fluid -->
 
-<iframe srcdoc=<%= render 'hirmeos_file_widget', presenter: @presenter, layout: false %>></iframe>
+<iframe src=<%= hyrax_hirmeos.file_set_metrics_widget_path(@presenter.id) %> width=600px height=400px></iframe>

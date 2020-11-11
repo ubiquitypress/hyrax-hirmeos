@@ -1,0 +1,8 @@
+<% if params[:type] == 'file_set' %>
+  <%= render 'file_set_widget_config' %>
+<% else %>
+  <%= render 'work_widget_config' %>
+<% end %>
+
+<div id='metrics-block'></div>
+<script src='https://storage.googleapis.com/operas/metrics-widget-0.0.19/widget.js'></script>

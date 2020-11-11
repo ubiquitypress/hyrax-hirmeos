@@ -12,6 +12,7 @@ require 'factory_bot_rails'
 require 'rspec/rails'
 require 'capybara/rails'
 require 'capybara/rspec'
+require 'rails-controller-testing'
 require 'selenium-webdriver'
 require 'webdrivers'
 require 'webdrivers/chromedriver'
@@ -103,5 +104,6 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
   config.include FactoryBot::Syntax::Methods
+  config.include ::Rails::Controller::Testing::TemplateAssertions, type: :request
   config.include Features::SessionHelpers, type: :feature
 end
