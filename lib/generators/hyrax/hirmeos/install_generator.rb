@@ -14,4 +14,10 @@ class Hyrax::Hirmeos::InstallGenerator < Rails::Generators::Base
 
     copy_file "hyrax_hirmeos.rb", initializer_file
   end
+
+  def mount_engine_routes
+    inject_into_file 'config/routes.rb', after: /mount Hyrax::Engine, at: '\S*'\n/ do
+      "  mount Hyrax::Hirmeos::Engine, at: '/', as: 'hyrax_hirmeos'\n"
+    end
+  end
 end

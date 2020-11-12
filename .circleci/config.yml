@@ -54,6 +54,7 @@ jobs:
       - samvera/install_solr_core:
           solr_config_path: 'spec/internal_test_hyrax/solr/config'
 
+      - run: bundle exec rails g hyrax:hirmeos:install
 
       # Setup CodeClimate
       - run:
