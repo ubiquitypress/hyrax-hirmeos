@@ -7,21 +7,13 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
   let(:work) { create(:work) }
 
   before do
-    # rubocop:disable RSpec/DescribedClass
-    Rails.application.routes.default_url_options[:host] = 'localhost:3000'
     Hyrax::Hirmeos::MetricsTracker.username = "UsernameTest"
     Hyrax::Hirmeos::MetricsTracker.password = "Password"
-    Hyrax::Hirmeos::MetricsTracker.metrics_base_url = "https://dummy-metrics-api/events"
-    Hyrax::Hirmeos::MetricsTracker.token_base_url = "https://tokens.dummy.endpoint/"
-    Hyrax::Hirmeos::MetricsTracker.translation_base_url = "https://translator.dummy.endpoint"
-    stub_request(:post, "https://translator.dummy.endpoint/works")
-    stub_request(:post, "https://tokens.dummy.endpoint/tokens").to_return(status: 200, body: { "data" => [{ "token" => "exampleToken" }], "code" => 200, "status" => "ok" }.to_json)
-    # rubocop:enable RSpec/DescribedClass
   end
 
   describe '#register_work_to_hirmeos' do
     it 'Makes a call to the register API if the work is not already registered' do
-      stub_request(:get, "https://dummy-metrics-api/events?filter=work_uri:urn:uuid:#{work.id}").to_return(status: 400)
+      stub_request(:get, "#{Hyrax::Hirmeos::MetricsTracker.metrics_base_url}/events?filter=work_uri:urn:uuid:#{work.id}").to_return(status: 400)
       structure = {
         "title": [
           work.title[0].to_s
@@ -41,7 +33,6 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
     end
 
     it 'does not call the register endpoint if a work is already registered' do
-      stub_request(:get, "https://dummy-metrics-api/events?filter=work_uri:urn:uuid:#{work.id}").to_return(status: 200)
       tracker.submit_to_hirmeos(work)
       expect(a_request(:post, tracker.translation_base_url + "/works")).not_to have_been_made
     end

@@ -9,17 +9,11 @@ RSpec.describe Hyrax::Actors::HirmeosActor do
   let(:user)       { build(:user) }
   let(:work)       { build(:work) }
 
-  before do
-    Rails.application.routes.default_url_options[:host] = 'localhost:3000'
-    stub_request(:any, "https://translations_base_url/works")
-    stub_request(:post, "https://token_base_url/tokens").to_return(status: 200, body: { "data" => [{ "token" => "exampleToken" }], "code" => 200, "status" => "ok" }.to_json)
-    stub_request(:get, "https://metrics_base_url/events?filter=work_uri:urn:uuid:#{work.id}").to_return(status: 400)
-  end
-
   describe '#create' do
     it "makes a call to hirmeos" do
+      stub_request(:get, "#{Hyrax::Hirmeos::MetricsTracker.metrics_base_url}/events?filter=work_uri:urn:uuid:#{work.id}").to_return(status: 400)
       actor.create(env)
-      expect(a_request(:post, "https://translations_base_url/works")).to have_been_made.at_least_once
+      expect(a_request(:post, "#{Hyrax::Hirmeos::MetricsTracker.translation_base_url}/works")).to have_been_made.at_least_once
     end
   end
 end
