@@ -8,7 +8,7 @@ module Hyrax
     # @example use in middleware
     #   stack = ActionDispatch::MiddlewareStack.new.tap do |middleware|
     #     # middleware.use OtherMiddleware
-    #     middleware.use Hyrax::Actors::DOIActor
+    #     middleware.use Hyrax::Actors::HirmeosActor
     #     # middleware.use MoreMiddleware
     #   end
     #
@@ -22,13 +22,13 @@ module Hyrax
       # @see Hyrax::Actors::AbstractActor
       def create(env)
         # Assume the model actor has already run and saved the work
-        register_work_in_hirmeos(env.curation_concern) && next_actor.create(env)
+        next_actor.create(env) && register_work_in_hirmeos(env.curation_concern)
       end
 
       private
 
-      def register_work_in_hirmeos(work)
-        Hyrax::Hirmeos::MetricsTracker.new.submit_to_hirmeos(work)
+      def register_work_in_hirmeos(resource)
+        Hyrax::Hirmeos::HirmeosRegistrationJob.perform_later(resource)
       end
     end
   end
