@@ -34,6 +34,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'capybara'
   spec.add_development_dependency 'chromedriver-helper', '~> 2.1'
   spec.add_development_dependency "factory_bot_rails"
+  spec.add_development_dependency 'rails-controller-testing'
   spec.add_development_dependency 'rspec_junit_formatter'
   spec.add_development_dependency "rspec-rails"
   spec.add_development_dependency('simplecov', '0.17.1', '< 0.18')

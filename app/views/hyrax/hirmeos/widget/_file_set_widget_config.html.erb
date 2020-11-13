@@ -1,0 +1,62 @@
+<script>
+      const metrics_config = {
+        settings: {
+          base_url: 'https://metrics-api.operas-eu.org/events',
+          work_uri: 'urn:uuid:<%= params[:id] %>',
+          language: 'en',
+          localise_country_codes: true,
+          one_per_column_width: 450
+        },
+        locales: {
+          en: {
+            tabs: {
+              sessions: 'Abstract Views'
+            }
+          }
+        },
+        tabs: {
+          sessions: {
+            nav_counts: ['*'],
+            graphs: {
+              time_graph: {
+                width: 100,
+                uris: ['https://metrics.operas-eu.org/up-ga/sessions/v1']
+              },
+              country_table: {
+                width: 30,
+                uris: ['https://metrics.operas-eu.org/up-ga/sessions/v1']
+              },
+              world_map: {
+                width: 70,
+                hideLabel: true,
+                uris: ['https://metrics.operas-eu.org/up-ga/sessions/v1']
+              }
+            }
+          },
+          downloads: {
+            nav_counts: ['*'],
+            graphs: {
+              time_graph: {
+                width: 100,
+                uris: ['https://metrics.operas-eu.org/up-logs/downloads/v1']
+              },
+              country_table: {
+                width: 30,
+                uris: [
+                  'https://metrics.operas-eu.org/up-ga/downloads/v1',
+                  'https://metrics.operas-eu.org/oapen/downloads/v1'
+                ]
+              },
+              world_map: {
+                width: 70,
+                hideLabel: true,
+                uris: [
+                  'https://metrics.operas-eu.org/up-ga/downloads/v1',
+                  'https://metrics.operas-eu.org/oapen/downloads/v1'
+                ]
+              }
+            }
+          }
+        }
+      };
+    </script>

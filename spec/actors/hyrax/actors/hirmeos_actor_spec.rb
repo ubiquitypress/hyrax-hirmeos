@@ -7,19 +7,13 @@ RSpec.describe Hyrax::Actors::HirmeosActor do
   let(:env)        { Hyrax::Actors::Environment.new(work, ability, {}) }
   let(:next_actor) { Hyrax::Actors::Terminator.new }
   let(:user)       { build(:user) }
-  let(:work)       { build(:work) }
+  let(:work)       { create(:work) }
 
-  before do
-    Rails.application.routes.default_url_options[:host] = 'localhost:3000'
-    stub_request(:any, "https://translations_base_url/works")
-    stub_request(:post, "https://token_base_url/tokens").to_return(status: 200, body: { "data" => [{ "token" => "exampleToken" }], "code" => 200, "status" => "ok" }.to_json)
-    stub_request(:get, "https://metrics_base_url/events?filter=work_uri:urn:uuid:#{work.id}").to_return(status: 400)
-  end
+  before { ActiveJob::Base.queue_adapter = :test }
 
   describe '#create' do
-    it "makes a call to hirmeos" do
-      actor.create(env)
-      expect(a_request(:post, "https://translations_base_url/works")).to have_been_made.at_least_once
+    it "enqueues the hirmeos registration job" do
+      expect { actor.create(env) }.to have_enqueued_job(Hyrax::Hirmeos::HirmeosRegistrationJob).with(work)
     end
   end
 end
