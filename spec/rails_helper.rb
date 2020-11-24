@@ -14,6 +14,8 @@ require 'capybara/rails'
 require 'capybara/rspec'
 require 'rails-controller-testing'
 require 'selenium-webdriver'
+require 'active_fedora/cleaner'
+require 'noid/rails/rspec'
 require 'webdrivers'
 require 'webdrivers/chromedriver'
 require 'webmock/rspec'
@@ -92,6 +94,18 @@ RSpec.configure do |config|
     stub_request(:post, "#{Hyrax::Hirmeos::MetricsTracker.token_base_url}/tokens").to_return(status: 200, body: { "data" => [{ "token" => "exampleToken" }], "code" => 200, "status" => "ok" }.to_json)
     stub_request(:get, Addressable::Template.new("#{Hyrax::Hirmeos::MetricsTracker.metrics_base_url}/events?filter=work_uri:urn:uuid:{id}")).to_return(status: 200)
   end
+
+  config.before(:suite) do
+    ActiveFedora::Cleaner.clean!
+  end
+
+  config.after do
+    ActiveFedora::Cleaner.clean!
+  end
+
+  include Noid::Rails::RSpec
+  config.before(:suite) { disable_production_minter! }
+  config.after(:suite)  { enable_production_minter! }
 
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false
