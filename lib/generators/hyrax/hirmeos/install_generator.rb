@@ -3,7 +3,7 @@ require 'rails/generators'
 require 'rails/generators/model_helpers'
 
 class Hyrax::Hirmeos::InstallGenerator < Rails::Generators::Base
-  source_root File.expand_path('../../../../../config/initializers', __FILE__)
+  source_root File.expand_path('../templates', __FILE__)
 
   def generate_config
     # rubocop:disable Style/RedundantSelf
@@ -12,7 +12,7 @@ class Hyrax::Hirmeos::InstallGenerator < Rails::Generators::Base
     initializer_file = File.join(self.destination_root, 'config/initializers/hyrax_hirmeos.rb')
     # rubocop:enable Style/RedundantSelf
 
-    copy_file "hyrax_hirmeos.rb", initializer_file
+    copy_file "config/initializers/hyrax_hirmeos.rb", initializer_file
   end
 
   def mount_engine_routes
