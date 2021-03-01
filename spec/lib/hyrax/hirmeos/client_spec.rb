@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 require 'hyrax/hirmeos/client'
 require 'rails_helper'
+require 'jwt'
 
 RSpec.describe Hyrax::Hirmeos::Client do
   subject(:client) do
@@ -33,7 +34,14 @@ RSpec.describe Hyrax::Hirmeos::Client do
         "purpose": "test"
       }
       token = client.generate_token(sample_payload)
-      expect(token).to eq('eyJhbGciOiJIUzI1NiJ9.eyJhcHAiOiJoeWt1IiwicHVycG9zZSI6InRlc3QifQ.tdZRtOkm9ZWPfig1_trrPLW8nKQsUQJXCS1IVYb4UZc')
+      expect(token).to be_present
+      expect(JWT.decode token, client.secret).to include(hash_including("app" => "hyku", "purpose" => "test"))
     end
+  end
+
+  it 'takes a default payload structure' do
+    token = client.generate_token
+    decoded_token = JWT.decode token, client.secret
+    expect(decoded_token).to include(hash_including("iat" => a_kind_of(Integer), "exp" => a_kind_of(Integer)))
   end
 end

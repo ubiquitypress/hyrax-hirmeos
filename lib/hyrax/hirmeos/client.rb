@@ -40,7 +40,7 @@ class Hyrax::Hirmeos::Client
   end
 
   def id_translation_connection
-    token = generate_token(build_payload)
+    token = generate_token
     Faraday.new(translation_base_url) do |conn|
       conn.adapter Faraday.default_adapter # net/http
       conn.token_auth(token)
@@ -48,7 +48,7 @@ class Hyrax::Hirmeos::Client
   end
 
   def metrics_connection
-    token = generate_token(build_payload)
+    token = generate_token
     Faraday.new(metrics_base_url) do |conn|
       conn.adapter Faraday.default_adapter # net/http
       conn.token_auth(token)
