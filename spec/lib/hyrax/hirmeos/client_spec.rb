@@ -30,7 +30,7 @@ RSpec.describe Hyrax::Hirmeos::Client do
     it 'generates a token for authentication' do
       sample_payload = {
         "app": "hyku",
-        "purpose": "test",
+        "purpose": "test"
       }
       token = client.generate_token(sample_payload)
       expect(token).to eq('eyJhbGciOiJIUzI1NiJ9.eyJhcHAiOiJoeWt1IiwicHVycG9zZSI6InRlc3QifQ.tdZRtOkm9ZWPfig1_trrPLW8nKQsUQJXCS1IVYb4UZc')

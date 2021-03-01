@@ -29,7 +29,7 @@ class Hyrax::Hirmeos::Client
   private
 
   def build_payload
-    token_content = {
+    {
       'authority': 'user',
       'email': '',
       'exp': Time.now.to_i + 900, # 15 minutes from creation recommended, which is 900 seconds
