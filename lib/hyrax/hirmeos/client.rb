@@ -1,13 +1,15 @@
 # frozen_string_literal: true
-class Hyrax::Hirmeos::Client
-  attr_accessor :username, :password, :metrics_base_url, :token_base_url, :translation_base_url
+require 'jwt'
 
-  def initialize(username, password, metrics_base_url, token_base_url, translation_base_url)
+class Hyrax::Hirmeos::Client
+  attr_accessor :username, :password, :metrics_base_url, :translation_base_url, :secret
+
+  def initialize(username, password, metrics_base_url, translation_base_url, secret)
     @username = username
     @password = password
     @metrics_base_url = metrics_base_url
-    @token_base_url = token_base_url
     @translation_base_url = translation_base_url
+    @secret = secret
   end
 
   def post_work(work)
@@ -18,17 +20,27 @@ class Hyrax::Hirmeos::Client
     metrics_connection.get("/events?filter=work_uri:urn:uuid:#{uuid}") # This will need to be made configurable I think?
   end
 
-  def request_token
-    response = Faraday.post(URI.join(token_base_url, 'tokens'), { email: username, password: password }.to_json)
-    JSON.parse(response.body)['data'][0]['token']
+  def generate_token(payload = build_payload)
+    JWT.encode payload, @secret
   end
 
   Work = Struct.new(:title, :uri, :type, :parent, :children)
 
   private
 
+  def build_payload
+    {
+      'authority': 'user',
+      'email': '',
+      'exp': Time.now.to_i + 900, # 15 minutes from creation recommended, which is 900 seconds
+      'iat': Time.now.to_i,
+      'name': '',
+      'sub': ''
+    }
+  end
+
   def id_translation_connection
-    token = request_token
+    token = generate_token
     Faraday.new(translation_base_url) do |conn|
       conn.adapter Faraday.default_adapter # net/http
       conn.token_auth(token)
@@ -36,7 +48,7 @@ class Hyrax::Hirmeos::Client
   end
 
   def metrics_connection
-    token = request_token
+    token = generate_token
     Faraday.new(metrics_base_url) do |conn|
       conn.adapter Faraday.default_adapter # net/http
       conn.token_auth(token)

@@ -7,5 +7,5 @@ require 'hyrax/hirmeos/metrics_tracker'
 Hyrax::Hirmeos::MetricsTracker.username = "Username"
 Hyrax::Hirmeos::MetricsTracker.password = "secure_password"
 Hyrax::Hirmeos::MetricsTracker.metrics_base_url = "https://metrics_base_url"
-Hyrax::Hirmeos::MetricsTracker.token_base_url = "https://token_base_url"
 Hyrax::Hirmeos::MetricsTracker.translation_base_url = "https://translations_base_url"
+Hyrax::Hirmeos::MetricsTracker.secret = ENV['HIRMEOS_TRANSLATOR_KEY']

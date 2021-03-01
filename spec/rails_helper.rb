@@ -85,13 +85,12 @@ RSpec.configure do |config|
     Hyrax::Hirmeos::MetricsTracker.username = "UsernameTest"
     Hyrax::Hirmeos::MetricsTracker.password = "Password"
     Hyrax::Hirmeos::MetricsTracker.metrics_base_url = "https://metrics.example.com"
-    Hyrax::Hirmeos::MetricsTracker.token_base_url = "https://tokens.example.com"
     Hyrax::Hirmeos::MetricsTracker.translation_base_url = "https://translator.example.com"
+    Hyrax::Hirmeos::MetricsTracker.secret = "myt$stkey"
   end
 
   config.before do
     stub_request(:any, "#{Hyrax::Hirmeos::MetricsTracker.translation_base_url}/works")
-    stub_request(:post, "#{Hyrax::Hirmeos::MetricsTracker.token_base_url}/tokens").to_return(status: 200, body: { "data" => [{ "token" => "exampleToken" }], "code" => 200, "status" => "ok" }.to_json)
     stub_request(:get, Addressable::Template.new("#{Hyrax::Hirmeos::MetricsTracker.metrics_base_url}/events?filter=work_uri:urn:uuid:{id}")).to_return(status: 200)
   end
 

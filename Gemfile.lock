@@ -3,6 +3,7 @@ PATH
   specs:
     hyrax-hirmeos (0.1.0)
       hyrax (~> 2.8)
+      jwt
       rails (~> 5.2.4, >= 5.2.4.3)
 
 GEM
