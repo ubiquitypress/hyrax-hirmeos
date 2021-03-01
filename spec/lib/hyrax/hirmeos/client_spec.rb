@@ -35,7 +35,8 @@ RSpec.describe Hyrax::Hirmeos::Client do
       }
       token = client.generate_token(sample_payload)
       expect(token).to be_present
-      expect(JWT.decode token, client.secret).to include(hash_including("app" => "hyku", "purpose" => "test"))
+      decoded_token = JWT.decode token, client.secret
+      expect(decoded_token).to include(hash_including("app" => "hyku", "purpose" => "test"))
     end
   end
 

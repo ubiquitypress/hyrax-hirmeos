@@ -20,7 +20,7 @@ class Hyrax::Hirmeos::Client
     metrics_connection.get("/events?filter=work_uri:urn:uuid:#{uuid}") # This will need to be made configurable I think?
   end
 
-  def generate_token(payload=build_payload)
+  def generate_token(payload = build_payload)
     JWT.encode payload, @secret
   end
 
