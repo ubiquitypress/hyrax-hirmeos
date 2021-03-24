@@ -2,6 +2,8 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
+gem 'mimemagic', git: 'https://github.com/minad/mimemagic.git', ref: '01f92d86d15d85cfd0f20dabd025dcbd36a8a60f'
+
 # Declare your gem's dependencies in hyrax-hirmeos.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
 # development dependencies will be added by default to the :development group.
