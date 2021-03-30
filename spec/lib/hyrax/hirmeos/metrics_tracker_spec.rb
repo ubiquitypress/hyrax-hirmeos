@@ -22,6 +22,9 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
           {
             "uri": "http://localhost:3000/concern/generic_works/#{work.id}",
             "canonical": true
+          },
+          {
+            "uri": "#{work.id}"
           }
         ],
         "type": "other",
