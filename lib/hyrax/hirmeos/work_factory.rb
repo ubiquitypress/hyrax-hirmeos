@@ -22,6 +22,6 @@ class Hyrax::Hirmeos::WorkFactory
     files = work.file_sets
     return if files.blank?
     links = files.map { |file| Hyrax::Engine.routes.url_helpers.download_url(id: file) }
-    links.each_slice(1).map { |link| Hash[[:uri].zip(link)] }
+    links.map { |link| { uri: link } }
   end
 end
