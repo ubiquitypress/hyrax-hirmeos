@@ -82,6 +82,7 @@ RSpec.configure do |config|
   config.before :suite do
     WebMock.disable_net_connect!(allow: ['localhost', '127.0.0.1', 'fedora', 'fedora-test', 'solr', 'solr-test', 'https://chromedriver.storage.googleapis.com'])
     Rails.application.routes.default_url_options[:host] = 'localhost:3000'
+    Hyrax::Engine.routes.default_url_options[:host] = 'localhost:3000'
     Hyrax::Hirmeos::MetricsTracker.username = "UsernameTest"
     Hyrax::Hirmeos::MetricsTracker.password = "Password"
     Hyrax::Hirmeos::MetricsTracker.metrics_base_url = "https://metrics.example.com"

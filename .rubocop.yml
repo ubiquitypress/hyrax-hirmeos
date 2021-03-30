@@ -8,9 +8,9 @@ AllCops:
     - 'spec/internal_test_hyrax/**/*'
     - 'vendor/**/*'
 Metrics/BlockLength:
-  Max: 50
+  Max: 80
 RSpec/ExampleLength:
-  Max: 20
+  Max: 25
 
 RSpec/DescribedClass:
   Exclude:
