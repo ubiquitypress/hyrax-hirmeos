@@ -14,6 +14,10 @@ FactoryBot.define do
       end
     end
 
+    factory :work_with_files do
+      before(:create) { |work, evaluator| 2.times { work.ordered_members << create(:file_set, user: evaluator.user) } }
+    end
+
     # It is reasonable to assume that a work has an admin set; However, we don't want to
     # go through the entire rigors of creating that admin set.
     before(:create) do |work, evaluator|
