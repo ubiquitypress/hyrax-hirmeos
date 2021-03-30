@@ -45,7 +45,7 @@ RSpec.describe Hyrax::Hirmeos::WorkFactory do
           "uri": work_with_file.id
         },
         {
-          "uri": "http://localhost:3000/downloads/#{work_with_file.file_sets[0].id}?locale=en"
+          "uri": "http://localhost:3000/downloads/#{work_with_file.file_sets[0].id}"
         }
       ],
       "type": "other",
@@ -70,10 +70,10 @@ RSpec.describe Hyrax::Hirmeos::WorkFactory do
           "uri": work_with_multiple_files.id
         },
         {
-          "uri": "http://localhost:3000/downloads/#{work_with_multiple_files.file_sets[0].id}?locale=en"
+          "uri": "http://localhost:3000/downloads/#{work_with_multiple_files.file_sets[0].id}"
         },
         {
-          "uri": "http://localhost:3000/downloads/#{work_with_multiple_files.file_sets[1].id}?locale=en"
+          "uri": "http://localhost:3000/downloads/#{work_with_multiple_files.file_sets[1].id}"
         }
       ],
       "type": "other",

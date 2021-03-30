@@ -21,7 +21,7 @@ class Hyrax::Hirmeos::WorkFactory
   def self.add_file_urls(work)
     files = work.file_sets
     return if files.blank?
-    links = files.map { |file| Hyrax::Engine.routes.url_helpers.download_url(id: file, locale: 'en') }
+    links = files.map { |file| Hyrax::Engine.routes.url_helpers.download_url(id: file) }
     links.each_slice(1).map { |link| Hash[[:uri].zip(link)] }
   end
 end
