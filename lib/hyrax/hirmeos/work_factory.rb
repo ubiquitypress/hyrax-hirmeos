@@ -6,11 +6,10 @@ class Hyrax::Hirmeos::WorkFactory
     work = Hyrax::Hirmeos::Client::Work.new
     work.title = resource.title
     work.uri = [{ uri: resource_url(resource), canonical: true },
-                { uri: resource.id }
-               ]
+                { uri: resource.id }]
     work.type = "other" # Need to map Hyrax work type to configured work types in HIRMEOS
-    file_urls = self.add_file_urls(resource)
-    work.uri << file_urls unless file_urls.blank?
+    file_urls = add_file_urls(resource)
+    work.uri << file_urls if file_urls.present?
     work.uri.flatten!
     work
   end
@@ -21,8 +20,8 @@ class Hyrax::Hirmeos::WorkFactory
 
   def self.add_file_urls(work)
     files = work.file_sets
-    return unless files.present?
-    links = files.map {|file| Hyrax::Engine.routes.url_helpers.download_url(id: file, locale: 'en')}
+    return if files.blank?
+    links = files.map { |file| Hyrax::Engine.routes.url_helpers.download_url(id: file, locale: 'en') }
     links.each_slice(1).map { |link| Hash[[:uri].zip(link)] }
   end
 end

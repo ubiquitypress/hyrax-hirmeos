@@ -31,54 +31,56 @@ RSpec.describe Hyrax::Hirmeos::WorkFactory do
     expect(factory_work.to_json).to eq(structure.to_json)
   end
 
-   it "Adds download link of a file when there is a file avalible" do
-     structure = {
-       "title": [
-         work_with_file.title[0].to_s
-       ],
-       "uri": [
-         {
-           "uri": "http://localhost:3000/concern/generic_works/#{work_with_file.id}",
-           "canonical": true
-         },
-         {
-           "uri": work_with_file.id
-         },
-         {
-           "uri": "http://localhost:3000/downloads/#{work_with_file.file_sets[0].id}?locale=en"
-         }
-       ],
-       "type": "other",
-       "parent": nil,
-       "children": nil
-     }
-     factory_work = described_class.for(resource: work_with_file)
-     expect(factory_work.to_json).to eq(structure.to_json)
-   end
+  it "Adds download link of a file when there is a file avalible" do
+    structure = {
+      "title": [
+        work_with_file.title[0].to_s
+      ],
+      "uri": [
+        {
+          "uri": "http://localhost:3000/concern/generic_works/#{work_with_file.id}",
+          "canonical": true
+        },
+        {
+          "uri": work_with_file.id
+        },
+        {
+          "uri": "http://localhost:3000/downloads/#{work_with_file.file_sets[0].id}?locale=en"
+        }
+      ],
+      "type": "other",
+      "parent": nil,
+      "children": nil
+    }
+    factory_work = described_class.for(resource: work_with_file)
+    expect(factory_work.to_json).to eq(structure.to_json)
+  end
 
-   it "Adds multiple download links when there are multiple files" do
-     structure = {
-       "title": [
-         work_with_multiple_files.title[0].to_s
-       ],
-       "uri": [
-         {
-           "uri": "http://localhost:3000/concern/generic_works/#{work_with_multiple_files.id}",
-           "canonical": true
-         },
-         {
-           "uri": work_with_multiple_files.id
-         },
-         {
-           "uri": "http://localhost:3000/downloads/#{work_with_multiple_files.file_sets[0].id}?locale=en"
-         },
-         {
-           "uri": "http://localhost:3000/downloads/#{work_with_multiple_files.file_sets[1].id}?locale=en"
-         }
-       ],
-       "type": "other",
-       "parent": nil,
-       "children": nil
-     }
-   end
+  it "Adds multiple download links when there are multiple files" do
+    structure = {
+      "title": [
+        work_with_multiple_files.title[0].to_s
+      ],
+      "uri": [
+        {
+          "uri": "http://localhost:3000/concern/generic_works/#{work_with_multiple_files.id}",
+          "canonical": true
+        },
+        {
+          "uri": work_with_multiple_files.id
+        },
+        {
+          "uri": "http://localhost:3000/downloads/#{work_with_multiple_files.file_sets[0].id}?locale=en"
+        },
+        {
+          "uri": "http://localhost:3000/downloads/#{work_with_multiple_files.file_sets[1].id}?locale=en"
+        }
+      ],
+      "type": "other",
+      "parent": nil,
+      "children": nil
+    }
+    factory_work = described_class.for(resource: work_with_multiple_files)
+    expect(factory_work.to_json).to eq(structure.to_json)
+  end
 end
