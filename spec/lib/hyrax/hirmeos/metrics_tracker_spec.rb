@@ -24,7 +24,7 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
             "canonical": true
           },
           {
-            "uri": "#{work.id}"
+            "uri": work.id.to_s
           }
         ],
         "type": "other",
