@@ -6,8 +6,8 @@ class Hyrax::Hirmeos::WorkFactory
     work = Hyrax::Hirmeos::Client::Work.new
     work.title = resource.title
     work.uri = [{ uri: resource_url(resource), canonical: true },
-                { uri: resource.id }]
-    work.type = "other" # Need to map Hyrax work type to configured work types in HIRMEOS
+                { uri: "urn:uuid:#{resource.id}" }]
+    work.type = "repository-work"
     file_urls = add_file_urls(resource)
     work.uri << file_urls if file_urls.present?
     work.uri.flatten!

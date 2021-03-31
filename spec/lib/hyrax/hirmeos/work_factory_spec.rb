@@ -20,10 +20,10 @@ RSpec.describe Hyrax::Hirmeos::WorkFactory do
           "canonical": true
         },
         {
-          "uri": work.id
+          "uri": "urn:uuid:#{work.id}"
         }
       ],
-      "type": "other",
+      "type": "repository-work",
       "parent": nil,
       "children": nil
     }
@@ -42,13 +42,13 @@ RSpec.describe Hyrax::Hirmeos::WorkFactory do
           "canonical": true
         },
         {
-          "uri": work_with_file.id
+          "uri": "urn:uuid:#{work_with_file.id}"
         },
         {
           "uri": "http://localhost:3000/downloads/#{work_with_file.file_sets[0].id}"
         }
       ],
-      "type": "other",
+      "type": "repository-work",
       "parent": nil,
       "children": nil
     }
@@ -67,7 +67,7 @@ RSpec.describe Hyrax::Hirmeos::WorkFactory do
           "canonical": true
         },
         {
-          "uri": work_with_multiple_files.id
+          "uri": "urn:uuid:#{work_with_multiple_files.id}"
         },
         {
           "uri": "http://localhost:3000/downloads/#{work_with_multiple_files.file_sets[0].id}"
@@ -76,7 +76,7 @@ RSpec.describe Hyrax::Hirmeos::WorkFactory do
           "uri": "http://localhost:3000/downloads/#{work_with_multiple_files.file_sets[1].id}"
         }
       ],
-      "type": "other",
+      "type": "repository-work",
       "parent": nil,
       "children": nil
     }

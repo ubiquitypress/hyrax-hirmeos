@@ -24,10 +24,10 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
             "canonical": true
           },
           {
-            "uri": work.id.to_s
+            "uri": "urn:uuid:#{work.id}"
           }
         ],
-        "type": "other",
+        "type": "repository-work",
         "parent": nil,
         "children": nil
       }
