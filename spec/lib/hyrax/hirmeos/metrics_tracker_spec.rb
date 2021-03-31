@@ -27,7 +27,7 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
             "uri": "urn:uuid:#{work.id}"
           }
         ],
-        "type": "other",
+        "type": "repository-work",
         "parent": nil,
         "children": nil
       }
