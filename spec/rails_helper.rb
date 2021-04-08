@@ -92,7 +92,7 @@ RSpec.configure do |config|
 
   config.before do
     stub_request(:any, "#{Hyrax::Hirmeos::MetricsTracker.translation_base_url}/works")
-    stub_request(:get, Addressable::Template.new("#{Hyrax::Hirmeos::MetricsTracker.metrics_base_url}/events?filter=work_uri:urn:uuid:{id}")).to_return(status: 200)
+    stub_request(:get, Addressable::Template.new("#{Hyrax::Hirmeos::MetricsTracker.translation_base_url}/translate?uri=urn:uuid:{id}")).to_return(status: 200)
   end
 
   config.before(:suite) do

@@ -16,8 +16,11 @@ class Hyrax::Hirmeos::Client
     id_translation_connection.post('/works', work.to_json)
   end
 
+  def post_file(work)
+  end
+
   def get_work(uuid)
-    metrics_connection.get("/events?filter=work_uri:urn:uuid:#{uuid}") # This will need to be made configurable I think?
+    id_translation_connection.get("/translate?uri=urn:uuid:#{uuid}") 
   end
 
   def generate_token(payload = build_payload)

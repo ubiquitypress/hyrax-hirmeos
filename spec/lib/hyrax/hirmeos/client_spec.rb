@@ -23,7 +23,7 @@ RSpec.describe Hyrax::Hirmeos::Client do
   describe '#get_work' do
     it 'Makes a call to get the work' do
       client.get_work(work.id)
-      expect(a_request(:get, "#{Hyrax::Hirmeos::MetricsTracker.metrics_base_url}/events?filter=work_uri:urn:uuid:#{work.id}")).to have_been_made.at_least_once
+      expect(a_request(:get, "#{Hyrax::Hirmeos::MetricsTracker.translation_base_url}/translate?uri=urn:uuid:#{work.id}")).to have_been_made.at_least_once
     end
   end
 

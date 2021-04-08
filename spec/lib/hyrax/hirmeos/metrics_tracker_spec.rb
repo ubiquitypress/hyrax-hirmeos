@@ -13,7 +13,7 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
 
   describe '#register_work_to_hirmeos' do
     it 'Makes a call to the register API if the work is not already registered' do
-      stub_request(:get, "#{Hyrax::Hirmeos::MetricsTracker.metrics_base_url}/events?filter=work_uri:urn:uuid:#{work.id}").to_return(status: 400)
+      stub_request(:get, "#{Hyrax::Hirmeos::MetricsTracker.translation_base_url}/translate?uri=urn:uuid:#{work.id}").to_return(status: 400)
       structure = {
         "title": [
           work.title[0].to_s
