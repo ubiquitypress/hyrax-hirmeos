@@ -16,11 +16,12 @@ class Hyrax::Hirmeos::Client
     id_translation_connection.post('/works', work.to_json)
   end
 
-  def post_file(work)
+  def get_work(uuid)
+    id_translation_connection.get("/translate?uri=urn:uuid:#{uuid}")
   end
 
-  def get_work(uuid)
-    id_translation_connection.get("/translate?uri=urn:uuid:#{uuid}") 
+  def post_files(data)
+    id_translation_connection.post('/uris', data)
   end
 
   def generate_token(payload = build_payload)
