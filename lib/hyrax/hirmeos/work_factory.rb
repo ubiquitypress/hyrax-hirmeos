@@ -8,6 +8,7 @@ class Hyrax::Hirmeos::WorkFactory
     work.uri = [{ uri: resource_url(resource), canonical: true },
                 { uri: "urn:uuid:#{resource.id}" }]
     work.type = "repository-work"
+    work
   end
 
   def self.resource_url(work)

@@ -21,7 +21,7 @@ class Hyrax::Hirmeos::Client
   end
 
   def post_files(data)
-    id_translation_connection.post('/uris', data)
+    request = id_translation_connection.post('/uris', data.to_json)
   end
 
   def generate_token(payload = build_payload)
