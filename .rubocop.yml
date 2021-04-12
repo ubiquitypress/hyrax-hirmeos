@@ -11,6 +11,8 @@ Metrics/BlockLength:
   Max: 80
 RSpec/ExampleLength:
   Max: 25
+Layout/LineLength:
+  Max: 250
 
 RSpec/DescribedClass:
   Exclude:
