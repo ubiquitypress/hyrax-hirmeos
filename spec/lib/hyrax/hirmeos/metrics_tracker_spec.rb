@@ -44,10 +44,10 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
     end
   end
 
-  describe '#submit_files_to_hirmeos' do
+  describe '#submit_file_to_hirmeos' do
     it 'Makes a request to the translator uri endpoint to add files to an existing work' do
       file_url = tracker.file_url(file_set)
-      tracker.submit_files_to_hirmeos(file_set)
+      tracker.submit_file_to_hirmeos(file_set)
       expect(a_request(:post, tracker.translation_base_url + "/uris").with(body: { "URI": file_url.to_s, "UUID": "48b61e0a-f92c-4533-8270-b4caa98cbcfb" }.to_json)).to have_been_made.at_least_once
     end
   end

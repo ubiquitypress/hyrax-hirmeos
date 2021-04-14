@@ -15,7 +15,7 @@ class Hyrax::Hirmeos::MetricsTracker
     client.post_work(resource_to_hirmeos_json(work))
   end
 
-  def submit_files_to_hirmeos(file_set)
+  def submit_file_to_hirmeos(file_set)
     work_id = file_set.parent_work_ids.first
     hirmeos_id = get_translator_work_id(work_id)
     client.post_files(resource_to_update_hash(file_url(file_set), hirmeos_id))
@@ -24,7 +24,7 @@ class Hyrax::Hirmeos::MetricsTracker
   def get_translator_work_id(uuid)
     response = client.get_work(uuid)
     work_json = JSON.parse(response.body) if response.success?
-    work_json['data'][0]['work']['UUID'] if work_json.present?
+    work_json.dig('data',0,'work','UUID') if work_json.present?
   end
 
   def resource_to_hirmeos_json(work)
