@@ -24,7 +24,7 @@ class Hyrax::Hirmeos::MetricsTracker
   def get_translator_work_id(uuid)
     response = client.get_work(uuid)
     work_json = JSON.parse(response.body) if response.success?
-    work_json.dig('data',0,'work','UUID') if work_json.present?
+    work_json.dig('data', 0, 'work', 'UUID') if work_json.present?
   end
 
   def resource_to_hirmeos_json(work)
