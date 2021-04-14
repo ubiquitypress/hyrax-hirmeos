@@ -5,8 +5,7 @@ require 'rails_helper'
 RSpec.describe Hyrax::Hirmeos::MetricsTracker do
   subject(:tracker) { described_class.new }
   let(:work) { create(:work) }
-  let(:work_with_file) { create(:work_with_one_file) }
-  let(:work_with_multiple_files) { create(:work_with_files) }
+  let(:file_set) { create(:file_with_work) }
 
   before do
     Hyrax::Hirmeos::MetricsTracker.username = "UsernameTest"
@@ -47,8 +46,8 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
 
   describe '#submit_files_to_hirmeos' do
     it 'Makes a request to the translator uri endpoint to add files to an existing work' do
-      file_url = tracker.file_urls(work_with_file)[0]
-      tracker.submit_files_to_hirmeos(work_with_file)
+      file_url = tracker.file_url(file_set)
+      tracker.submit_files_to_hirmeos(file_set)
       expect(a_request(:post, tracker.translation_base_url + "/uris").with(body: { "URI": file_url.to_s, "UUID": "48b61e0a-f92c-4533-8270-b4caa98cbcfb" }.to_json)).to have_been_made.at_least_once
     end
   end
@@ -61,19 +60,19 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
 
   describe '#get_translator_work_id' do
     it "Returns the HIRMEOS ID of a work already registed in HIRMEOS" do
-      expect(tracker.get_translator_work_id(work)).to eq("48b61e0a-f92c-4533-8270-b4caa98cbcfb")
+      expect(tracker.get_translator_work_id(work.id)).to eq("48b61e0a-f92c-4533-8270-b4caa98cbcfb")
     end
   end
 
-  describe '#file_urls' do
-    it 'returns an array of all download links to the files of a work' do
-      expect(tracker.file_urls(work_with_multiple_files)).to eq(["http://localhost:3000/downloads/#{work_with_multiple_files.file_sets[0].id}", "http://localhost:3000/downloads/#{work_with_multiple_files.file_sets[1].id}"])
+  describe '#file_url' do
+    it 'returns the download link of the file' do
+      expect(tracker.file_url(file_set)).to eq("http://localhost:3000/downloads/#{file_set.id}")
     end
   end
 
   describe '#resource_to_update_hash' do
     it 'creates an update hash for each file' do
-      file_url = tracker.file_urls(work_with_file)[0]
+      file_url = tracker.file_url(file_set)
       expect(tracker.resource_to_update_hash(file_url, "1234-abcd-zyxw")).to eq({ URI: file_url, UUID: "1234-abcd-zyxw" })
     end
   end

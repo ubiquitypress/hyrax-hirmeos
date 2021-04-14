@@ -15,11 +15,10 @@ class Hyrax::Hirmeos::MetricsTracker
     client.post_work(resource_to_hirmeos_json(work))
   end
 
-  def submit_files_to_hirmeos(work)
-    uuid = work.id
-    hirmeos_id = get_translator_work_id(uuid)
-    files = file_urls(work)
-    files.each { |file_url| client.post_files(resource_to_update_hash(file_url, hirmeos_id)) }
+  def submit_files_to_hirmeos(file_set)
+    work_id = file_set.parent_work_ids.first
+    hirmeos_id = get_translator_work_id(work_id)
+    client.post_files(resource_to_update_hash(file_url(file_set), hirmeos_id))
   end
 
   def get_translator_work_id(uuid)
@@ -32,10 +31,8 @@ class Hyrax::Hirmeos::MetricsTracker
     Hyrax::Hirmeos::WorkFactory.for(resource: work)
   end
 
-  def file_urls(work)
-    files = work.file_sets
-    return if files.blank?
-    files.map { |file| Hyrax::Engine.routes.url_helpers.download_url(id: file) }
+  def file_url(file)
+    Hyrax::Engine.routes.url_helpers.download_url(id: file)
   end
 
   def resource_to_update_hash(file_url, hirmeos_id)
