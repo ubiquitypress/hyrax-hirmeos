@@ -23,7 +23,18 @@ RSpec.describe Hyrax::Hirmeos::Client do
   describe '#get_work' do
     it 'Makes a call to get the work' do
       client.get_work(work.id)
-      expect(a_request(:get, "#{Hyrax::Hirmeos::MetricsTracker.metrics_base_url}/events?filter=work_uri:urn:uuid:#{work.id}")).to have_been_made.at_least_once
+      expect(a_request(:get, "#{Hyrax::Hirmeos::MetricsTracker.translation_base_url}/translate?uri=urn:uuid:#{work.id}")).to have_been_made.at_least_once
+    end
+  end
+
+  describe '#post_file' do
+    it 'Makes a call to the uris endpoint' do
+      data = {
+        'UUID': '48b61e0a-f92c-4533-8270-b4caa98cbcfb',
+        'URI': 'localhost:3000/downloads/1234567'
+      }
+      client.post_files(data)
+      expect(a_request(:post, "#{Hyrax::Hirmeos::MetricsTracker.translation_base_url}/uris").with(body: '{"UUID":"48b61e0a-f92c-4533-8270-b4caa98cbcfb","URI":"localhost:3000/downloads/1234567"}')).to have_been_made.at_least_once # rubocop:disable Layout/LineLength
     end
   end
 

@@ -11,7 +11,13 @@ Metrics/BlockLength:
   Max: 80
 RSpec/ExampleLength:
   Max: 25
+Layout/LineLength:
+  Max: 250
 
 RSpec/DescribedClass:
   Exclude:
     - 'spec/lib/hyrax/hirmeos/metrics_tracker_spec.rb'
+
+RSpec/DescribeClass:
+  Exclude:
+    - 'spec/config/hyrax_events_spec.rb'
