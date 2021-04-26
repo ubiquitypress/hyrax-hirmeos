@@ -32,7 +32,7 @@ class Hyrax::Hirmeos::MetricsTracker
   end
 
   def file_url(file)
-    Hyrax::Engine.routes.url_helpers.download_url(id: file).gsub('http', 'https')
+    Hyrax::Engine.routes.url_helpers.download_url(id: file).gsub('http://', 'https://')
   end
 
   def resource_to_update_hash(file_url, hirmeos_id)
