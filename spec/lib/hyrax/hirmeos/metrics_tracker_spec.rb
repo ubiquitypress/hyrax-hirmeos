@@ -66,7 +66,7 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
 
   describe '#file_url' do
     it 'returns the download link of the file' do
-      expect(tracker.file_url(file_set)).to eq("http://localhost:3000/downloads/#{file_set.id}")
+      expect(tracker.file_url(file_set)).to eq("https://localhost:3000/downloads/#{file_set.id}")
     end
   end
 
