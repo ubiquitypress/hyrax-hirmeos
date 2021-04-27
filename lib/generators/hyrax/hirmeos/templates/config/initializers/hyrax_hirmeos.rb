@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-## Set a default host and protocall for urls
+## Set a default host and protocal for urls
 # Rails.application.routes.default_url_options[:host] = 'localhost:3000'
 # Hyrax::Engine.routes.default_url_options[:host] = 'localhost:3000'
 
