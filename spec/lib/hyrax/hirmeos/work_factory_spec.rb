@@ -16,7 +16,7 @@ RSpec.describe Hyrax::Hirmeos::WorkFactory do
       ],
       "uri": [
         {
-          "uri": "http://localhost:3000/concern/generic_works/#{work.id}",
+          "uri": "https://localhost:3000/concern/generic_works/#{work.id}",
           "canonical": true
         },
         {
