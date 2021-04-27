@@ -5,7 +5,7 @@
 
 ## For the metrics Widget to display your metrics, the links must be sent as https
 # Rails.application.routes.default_url_options[:protocol] = 'https'
-#  Hyrax::Engine.routes.default_url_options[:protocol] = 'https'
+# Hyrax::Engine.routes.default_url_options[:protocol] = 'https'
 
 require 'hyrax/hirmeos/metrics_tracker'
 
