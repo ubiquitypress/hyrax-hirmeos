@@ -80,7 +80,7 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
 
   describe '#resource_to_uuid_update_hash' do
     it 'creates an update hash for each file' do
-      expect(tracker.resource_to_uuid_update_hash(file_set.id "1234-abcd-zyxw")).to eq({ URI: "urn:uuid:#{file_set.id}", UUID: "1234-abcd-zyxw" })
+      expect(tracker.resource_to_uuid_update_hash(file_set.id, "1234-abcd-zyxw")).to eq({ URI: "urn:uuid:#{file_set.id}", UUID: "1234-abcd-zyxw" })
     end
   end
 end
