@@ -18,7 +18,8 @@ class Hyrax::Hirmeos::MetricsTracker
   def submit_file_to_hirmeos(file_set)
     work_id = file_set.parent_work_ids.first
     hirmeos_id = get_translator_work_id(work_id)
-    client.post_files(resource_to_update_hash(file_url(file_set), hirmeos_id))
+    client.post_files(resource_to_link_update_hash(file_url(file_set), hirmeos_id))
+    client.post_files(resource_to_uuid_update_hash(file_set.id, hirmeos_id))
   end
 
   def get_translator_work_id(uuid)
@@ -35,7 +36,11 @@ class Hyrax::Hirmeos::MetricsTracker
     Hyrax::Engine.routes.url_helpers.download_url(id: file)
   end
 
-  def resource_to_update_hash(file_url, hirmeos_id)
+  def resource_to_link_update_hash(file_url, hirmeos_id)
     { 'URI': file_url, 'UUID': hirmeos_id }
+  end
+
+  def resource_to_uuid_update_hash(file_set_id, hirmeos_id)
+    { 'URI': "urn:uuid:#{file_set_id}", 'UUID': hirmeos_id }
   end
 end

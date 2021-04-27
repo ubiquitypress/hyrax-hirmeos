@@ -23,7 +23,7 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
         ],
         "uri": [
           {
-            "uri": "http://localhost:3000/concern/generic_works/#{work.id}",
+            "uri": "https://localhost:3000/concern/generic_works/#{work.id}",
             "canonical": true
           },
           {
@@ -49,6 +49,7 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
       file_url = tracker.file_url(file_set)
       tracker.submit_file_to_hirmeos(file_set)
       expect(a_request(:post, tracker.translation_base_url + "/uris").with(body: { "URI": file_url.to_s, "UUID": "48b61e0a-f92c-4533-8270-b4caa98cbcfb" }.to_json)).to have_been_made.at_least_once
+      expect(a_request(:post, tracker.translation_base_url + "/uris").with(body: { "URI": "urn:uuid:#{file_set.id}", "UUID": "48b61e0a-f92c-4533-8270-b4caa98cbcfb" }.to_json)).to have_been_made.at_least_once
     end
   end
 
@@ -70,10 +71,16 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
     end
   end
 
-  describe '#resource_to_update_hash' do
+  describe '#resource_to_link_update_hash' do
     it 'creates an update hash for each file' do
       file_url = tracker.file_url(file_set)
-      expect(tracker.resource_to_update_hash(file_url, "1234-abcd-zyxw")).to eq({ URI: file_url, UUID: "1234-abcd-zyxw" })
+      expect(tracker.resource_to_link_update_hash(file_url, "1234-abcd-zyxw")).to eq({ URI: file_url, UUID: "1234-abcd-zyxw" })
+    end
+  end
+
+  describe '#resource_to_uuid_update_hash' do
+    it 'creates an update hash for each file' do
+      expect(tracker.resource_to_uuid_update_hash(file_set.id "1234-abcd-zyxw")).to eq({ URI: "urn:uuid:#{file_set.id}", UUID: "1234-abcd-zyxw" })
     end
   end
 end
