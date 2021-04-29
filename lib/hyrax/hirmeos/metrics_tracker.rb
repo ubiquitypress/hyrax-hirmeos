@@ -29,7 +29,7 @@ class Hyrax::Hirmeos::MetricsTracker
   end
 
   def resource_to_hirmeos_json(work)
-    Hyrax::Hirmeos::MetricsTracker.work_factory.for(resource: work)
+    work_factory.for(resource: work)
   end
 
   def file_url(file)
