@@ -14,6 +14,7 @@ Hyrax::Hirmeos::MetricsTracker.password = "secure_password"
 Hyrax::Hirmeos::MetricsTracker.metrics_base_url = "https://metrics_base_url"
 Hyrax::Hirmeos::MetricsTracker.translation_base_url = "https://translations_base_url"
 Hyrax::Hirmeos::MetricsTracker.secret = ENV['HIRMEOS_TRANSLATOR_KEY']
+Hyrax::Hirmeos::MetricsTracker.work_factory = Hyrax::Hirmeos::WorkFactory
 
 Hyrax.config.callback.set(:after_create_fileset) do |file_set, user|
   FileSetAttachedEventJob.perform_later(file_set, user)

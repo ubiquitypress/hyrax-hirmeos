@@ -90,6 +90,7 @@ RSpec.configure do |config|
     Hyrax::Hirmeos::MetricsTracker.metrics_base_url = "https://metrics.example.com"
     Hyrax::Hirmeos::MetricsTracker.translation_base_url = "https://translator.example.com"
     Hyrax::Hirmeos::MetricsTracker.secret = "myt$stkey"
+    Hyrax::Hirmeos::MetricsTracker.work_factory = Hyrax::Hirmeos::WorkFactory
   end
 
   config.before do

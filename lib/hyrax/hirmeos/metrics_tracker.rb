@@ -2,7 +2,7 @@
 require "hyrax/hirmeos/client"
 require "hyrax/hirmeos/work_factory"
 class Hyrax::Hirmeos::MetricsTracker
-  class_attribute :username, :password, :metrics_base_url, :translation_base_url, :secret
+  class_attribute :username, :password, :metrics_base_url, :translation_base_url, :secret, :work_factory
 
   def client
     @client ||= Hyrax::Hirmeos::Client.new(username, password, metrics_base_url, translation_base_url, secret)
@@ -29,7 +29,7 @@ class Hyrax::Hirmeos::MetricsTracker
   end
 
   def resource_to_hirmeos_json(work)
-    Hyrax::Hirmeos::WorkFactory.for(resource: work)
+    Hyrax::Hirmeos::MetricsTracker.work_factory.for(resource: work)
   end
 
   def file_url(file)
