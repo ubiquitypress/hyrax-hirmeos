@@ -13,7 +13,7 @@ RSpec.describe Hyrax::Actors::HirmeosActor do
 
   describe '#create' do
     it "enqueues the hirmeos registration job" do
-      expect { actor.create(env) }.to have_enqueued_job(Hyrax::Hirmeos::HirmeosRegistrationJob).with(work)
+      expect { actor.create(env) }.to have_enqueued_job(Hyrax::Hirmeos::HirmeosRegistrationJob).with(work.id)
     end
   end
 end
