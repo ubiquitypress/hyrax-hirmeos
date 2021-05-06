@@ -3,6 +3,7 @@ module Hyrax
   module Hirmeos
     class HirmeosFileUpdaterJob < ApplicationJob
       def perform(resource)
+        resource = ActiveFedora::Base.find(resource_id)
         Hyrax::Hirmeos::MetricsTracker.new.submit_file_to_hirmeos(resource)
       end
     end
