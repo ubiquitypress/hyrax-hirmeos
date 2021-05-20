@@ -6,12 +6,36 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
   subject(:tracker) { described_class.new }
   let(:work) { create(:work) }
   let(:file_set) { create(:file_with_work) }
+  let(:hirmeos_work_data) do
+    {
+      count: 14,
+      code: 200,
+      data: [
+        {
+          URI: "https://dashboard.bertie.ubiquityrepo-ah.website/concern/pacific_images/92cfa1e1-4ab3-4fd3-9140-90eda7cd5ed9",
+          canonical: true,
+          score: 0,
+          URI_parts: {
+            scheme: "https",
+            value: "dashboard.bertie.ubiquityrepo-ah.website/concern/pacific_images/92cfa1e1-4ab3-4fd3-9140-90eda7cd5ed9"
+          },
+          work: {
+            URI: [],
+            type: "repository-work",
+            title: ["Pictures of TWICE"],
+            UUID: "48b61e0a-f92c-4533-8270-b4caa98cbcfb"
+          }
+        }
+      ]
+    }
+  end
 
   before do
     Hyrax::Hirmeos::MetricsTracker.username = "UsernameTest"
     Hyrax::Hirmeos::MetricsTracker.password = "Password"
-    body = "{\"count\": 14, \"code\": 200, \"data\": [{\"URI\": \"https://dashboard.bertie.ubiquityrepo-ah.website/concern/pacific_images/92cfa1e1-4ab3-4fd3-9140-90eda7cd5ed9\", \"canonical\": true, \"score\": 0, \"URI_parts\": {\"scheme\": \"https\", \"value\": \"dashboard.bertie.ubiquityrepo-ah.website/concern/pacific_images/92cfa1e1-4ab3-4fd3-9140-90eda7cd5ed9\"}, \"work\": {\"URI\": [], \"type\": \"repository-work\", \"title\": [\"Pictures of TWICE\"], \"UUID\": \"48b61e0a-f92c-4533-8270-b4caa98cbcfb\"}}]}" # rubocop:disable Layout/LineLength
-    stub_request(:get, Addressable::Template.new("#{Hyrax::Hirmeos::MetricsTracker.translation_base_url}/translate?uri=urn:uuid:{id}")).to_return(status: 200, body: body)
+    path = "#{Hyrax::Hirmeos::MetricsTracker.translation_base_url}/translate?uri=urn:uuid:{id}"
+
+    stub_request(:get, Addressable::Template.new(path)).to_return(status: 200, body: hirmeos_work_data.to_json)
   end
 
   describe '#register_work_to_hirmeos' do
@@ -48,6 +72,18 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
     it 'Makes a request to the translator uri endpoint to add files to an existing work' do
       file_url = tracker.file_url(file_set)
       tracker.submit_file_to_hirmeos(file_set)
+      expect(a_request(:post, tracker.translation_base_url + "/uris").with(body: { "URI": file_url.to_s, "UUID": "48b61e0a-f92c-4533-8270-b4caa98cbcfb" }.to_json)).to have_been_made.at_least_once
+      expect(a_request(:post, tracker.translation_base_url + "/uris").with(body: { "URI": "urn:uuid:#{file_set.id}", "UUID": "48b61e0a-f92c-4533-8270-b4caa98cbcfb" }.to_json)).to have_been_made.at_least_once
+    end
+  end
+
+ describe '#submit_diff_to_hirmeos' do
+   before do
+     allow(tracker).to receive(:get_work_links).and_return(hirmeos_work_data[:data])
+   end
+    it 'Makes a request to the translator uri endpoint to if there are missing links' do
+      file_url = tracker.file_url(file_set)
+      tracker.submit_diff_to_hirmeos(work)
       expect(a_request(:post, tracker.translation_base_url + "/uris").with(body: { "URI": file_url.to_s, "UUID": "48b61e0a-f92c-4533-8270-b4caa98cbcfb" }.to_json)).to have_been_made.at_least_once
       expect(a_request(:post, tracker.translation_base_url + "/uris").with(body: { "URI": "urn:uuid:#{file_set.id}", "UUID": "48b61e0a-f92c-4533-8270-b4caa98cbcfb" }.to_json)).to have_been_made.at_least_once
     end
