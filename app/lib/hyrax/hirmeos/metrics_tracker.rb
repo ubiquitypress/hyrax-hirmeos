@@ -82,8 +82,6 @@ class Hyrax::Hirmeos::MetricsTracker
 
   def exists_link_uri?(link, source_options)
     source_options.assert_valid_keys(:at)
-    puts link
-    pp source_options[:at]
-    source_options[:at].any?{ |item| (link[:uri] || link[:URI]) == item["URI"]}
+    source_options[:at].any? { |item| (link[:uri] || link[:URI]) == item["URI"] }
   end
 end

@@ -33,7 +33,7 @@ class Hyrax::Hirmeos::Client
   end
 
   def generate_token(payload = build_payload)
-    JWT.encode payload, @secret
+    JWT.encode(payload, @secret)
   end
 
   Work = Struct.new(:title, :uri, :type, :parent, :children)

@@ -38,11 +38,14 @@ RSpec.describe Hyrax::Hirmeos::Client do
     end
   end
 
+  describe '#delete_work' do
+    before do
+      stub_request(:delete, "https://translator.example.com/works?uuid=urn:uuid:123")
+    end
 
-  describe '#get_work' do
     it 'Makes a call to get the work' do
       client.delete_work("123")
-      expect(a_request(:delete, "#{Hyrax::Hirmeos::MetricsTracker.translation_base_url}/works?uuid=123")).to have_been_made.at_least_once
+      expect(a_request(:delete, "#{Hyrax::Hirmeos::MetricsTracker.translation_base_url}/works?uuid=urn:uuid:123")).to have_been_made.at_least_once
     end
   end
 

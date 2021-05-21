@@ -9,8 +9,12 @@ AllCops:
     - 'vendor/**/*'
 Metrics/BlockLength:
   Max: 80
+  Exclude:
+    - 'spec/**/*.rb'
+    -
 RSpec/ExampleLength:
   Max: 25
+
 Layout/LineLength:
   Max: 250
 
@@ -21,3 +25,11 @@ RSpec/DescribedClass:
 RSpec/DescribeClass:
   Exclude:
     - 'spec/config/hyrax_events_spec.rb'
+
+RSpec/SubjectStub:
+  Exclude:
+    - 'spec/lib/hyrax/hirmeos/metrics_tracker_spec.rb'
+
+RSpec/AnyInstance:
+  Exclude:
+    - 'spec/jobs/hirmeos_work_updater_job_spec.rb'
