@@ -27,7 +27,7 @@ class Hyrax::Hirmeos::MetricsTracker
 
     diff = latest_work_links.select { |link| !exists_link_uri?(link, at: existing_hirmeos_links) }
     diff.each do |diff_entry|
-      client.post_files("URI": diff_entry[:URI], UUID: hirmeos_uuid)
+      client.post_files("URI": diff_entry[:URI] || diff_entry[:uri], UUID: hirmeos_uuid)
     end
   end
 
