@@ -8,7 +8,7 @@ RSpec.describe Hyrax::Hirmeos::HirmeosWorkUpdaterJob do
     let(:service) { instance_double(Hyrax::Hirmeos::MetricsTracker, submit_diff_to_hirmeos: true) }
 
     before do
-      allow_any_instance_of(described_class).to receive(:service).and_return(service)
+      allow(Hyrax::Hirmeos::MetricsTracker).to receive(:new).and_return(service)
     end
 
     it "makes a call to hirmeos" do

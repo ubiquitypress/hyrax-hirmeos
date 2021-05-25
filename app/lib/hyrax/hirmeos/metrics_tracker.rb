@@ -1,6 +1,4 @@
 # frozen_string_literal: true
-require "hyrax/hirmeos/client"
-require "hyrax/hirmeos/work_factory"
 class Hyrax::Hirmeos::MetricsTracker
   class_attribute :username, :password, :metrics_base_url, :translation_base_url, :secret, :work_factory
 
@@ -29,7 +27,7 @@ class Hyrax::Hirmeos::MetricsTracker
 
     diff = latest_work_links.select { |link| !exists_link_uri?(link, at: existing_hirmeos_links) }
     diff.each do |diff_entry|
-      client.post_files("URI": diff_entry[:URI] || diff_entry[:uri], UUID: hirmeos_uuid)
+      client.post_files("URI": diff_entry[:URI], UUID: hirmeos_uuid)
     end
   end
 
@@ -82,6 +80,7 @@ class Hyrax::Hirmeos::MetricsTracker
 
   def exists_link_uri?(link, source_options)
     source_options.assert_valid_keys(:at)
-    source_options[:at].any? { |item| (link[:uri] || link[:URI]) == item["URI"] }
+    uri = link[:uri].presence || link[:URI]
+    source_options[:at].any? { |item| uri == item["URI"] }
   end
 end

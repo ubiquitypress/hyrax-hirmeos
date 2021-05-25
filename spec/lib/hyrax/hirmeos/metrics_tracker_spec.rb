@@ -73,25 +73,36 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
     it 'Makes a request to the translator uri endpoint to add files to an existing work' do
       file_url = tracker.file_url(file_set)
       tracker.submit_file_to_hirmeos(file_set)
+
       expect(a_request(:post, tracker.translation_base_url + "/uris")
                  .with(body: { "URI": file_url.to_s, "UUID": hirmeos_uuid }.to_json))
         .to have_been_made.at_least_once
-      expect(a_request(:post, tracker.translation_base_url + "/uris").with(body: { "URI": "urn:uuid:#{file_set.id}", "UUID": hirmeos_uuid }.to_json)).to have_been_made.at_least_once
+
+      expect(a_request(:post, tracker.translation_base_url + "/uris")
+                 .with(body: { "URI": "urn:uuid:#{file_set.id}", "UUID": hirmeos_uuid }.to_json))
+        .to have_been_made.at_least_once
     end
   end
 
   describe '#submit_diff_to_hirmeos' do
     before do
-      allow(tracker).to receive(:get_work_links).and_return(hirmeos_work_data[:data])
+      path = "#{Hyrax::Hirmeos::MetricsTracker.translation_base_url}/works?uuid=#{hirmeos_uuid}"
+      stub_request(:get, path).to_return(status: 200, body: hirmeos_work_data[:data].to_json)
     end
 
     it 'Makes a request to the translator uri endpoint to if there are missing links' do
-      # file_url = tracker.file_url(file_set)
       file_url = tracker.file_url(work.file_sets.first)
       tracker.submit_diff_to_hirmeos(work)
       work.file_sets.each do |file_set|
-        expect(a_request(:post, tracker.translation_base_url + "/uris").with(body: { "URI": file_url.to_s, "UUID": hirmeos_uuid }.to_json)).to have_been_made.at_least_once
-        expect(a_request(:post, tracker.translation_base_url + "/uris").with(body: { "URI": "urn:uuid:#{file_set.id}", "UUID": hirmeos_uuid }.to_json)).to have_been_made.at_least_once
+        expect(
+          a_request(:post, tracker.translation_base_url + "/uris")
+            .with(body: { "URI": file_url.to_s, "UUID": hirmeos_uuid }.to_json)
+        ).to have_been_made.at_least_once
+
+        expect(
+          a_request(:post, tracker.translation_base_url + "/uris")
+            .with(body: { "URI": "urn:uuid:#{file_set.id}", "UUID": hirmeos_uuid }.to_json)
+        ).to have_been_made.at_least_once
       end
     end
   end
@@ -104,9 +115,6 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
 
   describe '#resource_to_hirmeos_json_with_files' do
     let(:result) { tracker.resource_to_hirmeos_json_with_files(work, hirmeos_uuid) }
-
-    before do
-    end
 
     it "Returns a Array" do
       expect(result).to be_an Array

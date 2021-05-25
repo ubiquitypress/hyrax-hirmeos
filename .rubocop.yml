@@ -25,11 +25,3 @@ RSpec/DescribedClass:
 RSpec/DescribeClass:
   Exclude:
     - 'spec/config/hyrax_events_spec.rb'
-
-RSpec/SubjectStub:
-  Exclude:
-    - 'spec/lib/hyrax/hirmeos/metrics_tracker_spec.rb'
-
-RSpec/AnyInstance:
-  Exclude:
-    - 'spec/jobs/hirmeos_work_updater_job_spec.rb'
