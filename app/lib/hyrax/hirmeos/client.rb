@@ -16,8 +16,16 @@ class Hyrax::Hirmeos::Client
     id_translation_connection.post('/works', work.to_json)
   end
 
-  def get_work(uuid)
-    id_translation_connection.get("/translate?uri=urn:uuid:#{uuid}")
+  def get_work(hyku_uuid)
+    id_translation_connection.get("/translate?uri=urn:uuid:#{hyku_uuid}")
+  end
+
+  def get_work_identifiers(hirmeos_uuid)
+    id_translation_connection.get("/works?uuid=#{hirmeos_uuid}")
+  end
+
+  def delete_work(hirmeos_uuid)
+    id_translation_connection.delete('/works', uuid: "urn:uuid:#{hirmeos_uuid}")
   end
 
   def post_files(data)
@@ -25,7 +33,7 @@ class Hyrax::Hirmeos::Client
   end
 
   def generate_token(payload = build_payload)
-    JWT.encode payload, @secret
+    JWT.encode(payload, @secret)
   end
 
   Work = Struct.new(:title, :uri, :type, :parent, :children)
@@ -44,18 +52,17 @@ class Hyrax::Hirmeos::Client
   end
 
   def id_translation_connection
-    token = generate_token
-    Faraday.new(translation_base_url) do |conn|
-      conn.adapter Faraday.default_adapter # net/http
-      conn.authorization :Bearer, token
-    end
+    connection_for(translation_base_url)
   end
 
   def metrics_connection
-    token = generate_token
-    Faraday.new(metrics_base_url) do |conn|
+    connection_for(metrics_base_url)
+  end
+
+  def connection_for(url)
+    Faraday.new(url) do |conn|
       conn.adapter Faraday.default_adapter # net/http
-      conn.authorization :Bearer, token
+      conn.authorization :Bearer, generate_token
     end
   end
 end
