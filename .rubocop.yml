@@ -20,6 +20,7 @@ Layout/LineLength:
 
 RSpec/DescribedClass:
   Exclude:
+    - 'spec/lib/hyrax/hirmeos_spec.rb'
     - 'spec/lib/hyrax/hirmeos/metrics_tracker_spec.rb'
 
 RSpec/DescribeClass:
