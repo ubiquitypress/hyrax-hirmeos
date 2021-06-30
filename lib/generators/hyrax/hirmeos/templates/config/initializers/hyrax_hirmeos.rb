@@ -9,14 +9,14 @@
 
 require 'hyrax/hirmeos/metrics_tracker'
 
-Hyrax::Hirmeos::MetricsTracker.username = "Username"
-Hyrax::Hirmeos::MetricsTracker.password = "secure_password"
-Hyrax::Hirmeos::MetricsTracker.metrics_base_url = "https://metrics_base_url"
-Hyrax::Hirmeos::MetricsTracker.translation_base_url = "https://translations_base_url"
+Hyrax::Hirmeos::MetricsTracker.username = ENV["HIRMEOS_USERNAME"]
+Hyrax::Hirmeos::MetricsTracker.password = ENV["HIRMEOS_PASSWORD"]
+Hyrax::Hirmeos::MetricsTracker.metrics_base_url = ENV["HIRMEOS_METRICS_BASE_URL"]
+Hyrax::Hirmeos::MetricsTracker.translation_base_url = ENV["HIRMEOS_TRANSLATION_BASE_URL"]
 Hyrax::Hirmeos::MetricsTracker.secret = ENV['HIRMEOS_TRANSLATOR_KEY']
 Hyrax::Hirmeos::MetricsTracker.work_factory = Hyrax::Hirmeos::WorkFactory
 
 Hyrax.config.callback.set(:after_create_fileset) do |file_set, user|
   FileSetAttachedEventJob.perform_later(file_set, user)
-  Hyrax::Hirmeos::HirmeosFileUpdaterJob.perform_later(file_set.id)
+  Hyrax::Hirmeos::HirmeosFileUpdaterJob.perform_later(file_set.id) if Hyrax::Hirmeos.configured?
 end
